@@ -10,8 +10,8 @@ function addMeasurement(value) {
   store.items.push({
     date: date,
     value: value
-  });
-  store = saveStore(store);
+  } );
+  store = saveStore( store );
 }
 
 function renderRecentMeasureList(items, selector = "recent-measure-list") {
