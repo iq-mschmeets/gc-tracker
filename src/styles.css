@@ -1,0 +1,16 @@
+body {
+  font-family: sans-serif;
+}
+label {
+  display: block;
+}
+
+ul#recent-measure-list li {
+  list-style: none;
+  margin: 0.25em auto;
+}
+
+ul#recent-measure-list {
+  max-height: 20em;
+  overflow-y: auto;
+}
