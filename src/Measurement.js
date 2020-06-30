@@ -5,8 +5,9 @@ MeasurementTemplate.innerHTML = `
       display:flex; 
       flex-direction:row; 
       justify-content:space-between;
-      width:100%;
+      
       border: 1px solid #eaeaea;
+      padding: .25em;
     }
     #value{
       font-weight:500;
