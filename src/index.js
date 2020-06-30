@@ -1,18 +1,20 @@
 import "./styles.css";
 import { getStore, saveStore } from "./store.js";
 import Measurement from "./Measurement.js";
+import GlucoseEntry from "./GlucoseEntry.js";
 
 let store = getStore();
 
-function addMeasurement(value) {
+function addMeasurement(payload) {
   let date = new Date();
   store = getStore();
   store.items.push({
-    date: date,
-    value: value
+    date: payload.date,
+    value: payload.value
   } );
   store = saveStore( store );
 }
+
 
 function renderRecentMeasureList(items, selector = "recent-measure-list") {
   const list = document.getElementById(selector);
@@ -29,12 +31,12 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     console.log(item);
   });
 
-  var total = items.reduce((accum, item) => {
-    return accum + Number(item.value);
-  }, 0);
-
   if (items.length > 0) {
-    var avg = total / items.length;
+    let total = items.reduce((accum, item) => {
+      return accum + Number(item.value);
+    }, 0);
+
+    let avg = total / items.length;
     let li = document.createElement("li");
     let h3 = document.createElement("h3");
     li.appendChild(h3);
@@ -44,7 +46,8 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
 }
 function update() {
   console.log("ENTERING UPDATE");
-  renderRecentMeasureList(store.items);
+  renderRecentMeasureList( store.items );
+  let gc = new GlucoseEntry();
   /*
   const list = document.getElementById("recent-measure-list");
   list.innerHTML = "";
@@ -66,17 +69,14 @@ function update() {
 // window.addEventListener("DOMContentLoaded", () => {
 try {
   console.log("entering dcl");
-  const input = document.getElementById("bgc");
-  const button = document.getElementById("addMeasure");
-
-  button.addEventListener("click", evt => {
-    console.log("addMeasure click");
-    addMeasurement(input.value);
+  
+  
+  
+  document.body.addEventListener( "new-item", ( evt ) => { 
+    console.log("new-item %o", evt);
+    addMeasurement(evt.detail.payload);
     update();
-    input.value = "";
-    input.focus();
-    console.log("store ", store);
-  });
+  } );
 
   let revs = 0;
   let hndl = setInterval(() => {

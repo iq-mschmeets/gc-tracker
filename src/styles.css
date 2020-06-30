@@ -1,5 +1,17 @@
+/**
+#BEE3FD light blue
+#DEE54D  light yellow
+#2645E1  dark blue
+#685069  darkish gray
+#77BC07  medium green
+
+*/
+
+
+
 body {
   font-family: sans-serif;
+  font-size: 13px;
 }
 label {
   display: block;
@@ -16,3 +28,15 @@ ul#recent-measure-list {
   max-height: 20em;
   overflow-y: auto;
 }
+.w33{
+  width: 33%;
+}
+.row{
+  display:flex;
+  flex-direction: row;
+}
+gt-glucose-entry{
+  display:block;
+  min-width: 500px;
+}
+

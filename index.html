@@ -3,17 +3,28 @@
   <head>
     <title>Parcel Sandbox</title>
     <meta charset="UTF-8" />
+    <!-- <script
+      type="module"
+      src="./node_modules/elix/define/DateComboBox.js"
+    ></script> -->
   </head>
 
   <body>
     <h1>Glucose Tracker</h1>
 
     <div id="app"></div>
-
+    <!--
+<div style="border:1px solid red;">
     <label for="bgc">Enter meter reading</label>
     <input type="number" id="bgc" placeholder="Enter glucose reading" />
     <button id="addMeasure">Add</button>
+  </div>
+-->
+<div class="row w33">
+    <gt-glucose-entry></gt-glucose-entry>
 
+    
+  </div>
     <section class="recents">
       <h2>Recent Measures</h2>
       <ul id="recent-measure-list"></ul>
