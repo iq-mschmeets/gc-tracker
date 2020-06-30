@@ -33,12 +33,14 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     return accum + Number(item.value);
   }, 0);
 
-  var avg = total / items.length;
-  let li = document.createElement("li");
-  let h3 = document.createElement("h3");
-  li.appendChild(h3);
-  h3.textContent = "Recent Measure Average: " + avg.toFixed(0);
-  list.appendChild(li);
+  if (items.length > 0) {
+    var avg = total / items.length;
+    let li = document.createElement("li");
+    let h3 = document.createElement("h3");
+    li.appendChild(h3);
+    h3.textContent = "Recent Measure Average: " + avg.toFixed(0);
+    list.appendChild(li);
+  }
 }
 function update() {
   console.log("ENTERING UPDATE");
