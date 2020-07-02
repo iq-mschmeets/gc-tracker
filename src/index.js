@@ -6,11 +6,17 @@ import GlucoseEntry from "./GlucoseEntry.js";
 let store = getStore();
 
 function addMeasurement(payload) {
-  let date = new Date();
+  let date = new Date(Date.now());
   store = getStore();
+
   store.items.push({
-    date: payload.date,
-    value: payload.value
+    date: date,
+    value: parseInt(payload.value),
+    user: payload.user || "Mark",
+    day: payload.date.getDate(),
+    month: payload.date.getMonth()+1,
+    year: payload.date.getFullYear(),
+    id: date.getTime()
   } );
   store = saveStore( store );
 }
@@ -37,11 +43,14 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     }, 0);
 
     let avg = total / items.length;
-    let li = document.createElement("li");
-    let h3 = document.createElement("h3");
-    li.appendChild(h3);
-    h3.textContent = "Recent Measure Average: " + avg.toFixed(0);
-    list.appendChild(li);
+    let h3 = null;
+    if ( !document.querySelector( "section.recents h3" ) ) {
+      h3 = document.createElement( "h3" );
+      document.querySelector("section.recents").appendChild(h3);
+    } else {
+      h3 = document.querySelector( "section.recents h3" );
+    }
+    h3.textContent = "Average of Recent Measures: " + avg.toFixed(0);
   }
 }
 function update() {
@@ -78,14 +87,14 @@ try {
     update();
   } );
 
-  let revs = 0;
-  let hndl = setInterval(() => {
-    update();
-    revs++;
-    if (revs > 5) {
-      window.clearInterval(hndl);
-    }
-  }, 5000);
+  // let revs = 0;
+  // let hndl = setInterval(() => {
+  //   update();
+  //   revs++;
+  //   if (revs > 5) {
+  //     window.clearInterval(hndl);
+  //   }
+  // }, 5000);
 
   update();
 } catch (er) {

@@ -1,12 +1,13 @@
-import DateComboBox from "elix/define/DateComboBox.js";
+
 
 const GlucoseEntryTemplate = document.createElement( "template" );
 GlucoseEntryTemplate.innerHTML = `
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <style>
         input{ padding: .5em; border: 1px solid #dadada;min-width:11em;height:1.5em;}
         label{ color: #888; display:block;}
         button{ 
-            padding: .5em; 
+            padding: .5em 1.5em; 
             background-color:#77BC07;
             color:white;
             border:1px solid #685069; 
@@ -37,10 +38,19 @@ GlucoseEntryTemplate.innerHTML = `
             <input type="number" id="bgc" placeholder="Enter glucose" />
         </div>
 
-        <button id="addMeasure">Add</button>
+        <button id="addMeasure">
+            <i class="fas fa-plus"></i> Add
+        </button>
 
     </div>
 `;
+
+function normalizeTimeDate( value ) {
+    if ( value < 10 ) {
+        value = "0" + value;
+    }
+    return value;
+}
 
 class GlucoseEntry extends HTMLElement{
     constructor() {
@@ -52,12 +62,6 @@ class GlucoseEntry extends HTMLElement{
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild( GlucoseEntryTemplate.content.cloneNode( true ) );
 
-        // Instantiate an Elix component.
-        // const dateComboBox = new DateComboBox();
-
-        // You can set custom properties on the component, invoke methods, etc.
-        // dateComboBox.date = new Date();
-        // this.shadowRoot.querySelector( "#dateLabel" ).appendChild(dateComboBox);
     }
     onClick( evt ) {
         console.log( "GlucoseEntry.onClick %o, %o", evt, this.shadowRoot.querySelector( 'input' ) );
@@ -93,14 +97,11 @@ class GlucoseEntry extends HTMLElement{
         this.shadowRoot.querySelector( "button#addMeasure" ).removeEventListener( "click", this.onClick );
     }
     initializeTimeDateControls( dt ) {
-        let mon = dt.getMonth() + 1;
-        if ( mon < 10 ) {
-            mon = "0" + mon;
-        }
-        const dateStr = dt.getFullYear() + "-" + mon + "-" + dt.getDate();
-        const timeStr = dt.getHours() + ":" + dt.getMinutes();
+        const dateStr = dt.getFullYear() + "-" + normalizeTimeDate( dt.getMonth() + 1 ) + "-" + normalizeTimeDate( dt.getDate() );
+        const timeStr = normalizeTimeDate( dt.getHours() ) + ":" + normalizeTimeDate( dt.getMinutes() );
         this.shadowRoot.querySelector( 'input#date' ).setAttribute("value", dateStr);
-        this.shadowRoot.querySelector( 'input#time' ).setAttribute("value",timeStr);
+        this.shadowRoot.querySelector( 'input#time' ).setAttribute( "value", timeStr );
+        
     }
 }
 
