@@ -2,6 +2,10 @@ import "./styles.css";
 import { getStore, saveStore } from "./store.js";
 import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
+import { GoogleCharts } from 'google-charts';
+
+let chartReady = false;
+GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );});
 
 let store = getStore();
 
@@ -16,7 +20,8 @@ function addMeasurement(payload) {
     day: payload.date.getDate(),
     month: payload.date.getMonth()+1,
     year: payload.date.getFullYear(),
-    id: date.getTime()
+    id: date.getTime(),
+    note:''
   } );
   store = saveStore( store );
 }
@@ -53,9 +58,33 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     h3.textContent = "Average of Recent Measures: " + avg.toFixed(0);
   }
 }
+function renderRecentChart( items, selector = "#chart-div" ) {
+  
+  let rows = items.map( item => [ item.day + '/' + item.month, parseInt(item.value) ] );
+  rows.unshift( [ 'Date', 'Glucose' ] );
+  console.log( "Chart data ", rows.slice() );
+  var data = GoogleCharts.api.visualization.arrayToDataTable( rows );
+  var options = {
+    hAxis: {
+      title: 'Date',
+      logScale: false
+    },
+    vAxis: {
+      title: 'mg/dl',
+      logScale: false
+    },
+    colors: [ '#BEE3FD' ],
+    title: "Recent",
+    pointSize: 7
+  };
+
+  var chart = new GoogleCharts.api.visualization.LineChart(document.querySelector(selector));
+  chart.draw(data, options);
+}
 function update() {
   console.log("ENTERING UPDATE");
   renderRecentMeasureList( store.items );
+  renderRecentChart( store.items );
   let gc = new GlucoseEntry();
   /*
   const list = document.getElementById("recent-measure-list");

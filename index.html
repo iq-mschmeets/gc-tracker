@@ -3,26 +3,38 @@
   <head>
     <title>Parcel Sandbox</title>
     <meta charset="UTF-8" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://kit.fontawesome.com/7332029ba5.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
 
   <body>
     <header>
-      <h1>Glucose Tracker</h1>
+      <h1> <i class="fa fa-user-md" aria-hidden="true"></i>  Glucose Tracker</h1>
     </header>
 
-    <main>
-      <div class="row">
-        <gt-glucose-entry></gt-glucose-entry>  
-      </div>
+    <div class="container">
+      <nav>
+        <h3>Glucose</h3>
+        <h3>Blood Pressure</h3>
+      </nav>
 
-      <section class="recents">
-        <h2>Recent Measures</h2>
-        <ul id="recent-measure-list"></ul>
-      </section>
-      
-    </main>
+      <main>
+        <div class="row">
+          <gt-glucose-entry></gt-glucose-entry>  
+        </div>
+
+        <section class="recents">
+          <h2>Recent Measures</h2>
+          <div class="recent-parent">
+            <ul id="recent-measure-list"></ul>
+            <div id="chart-div" style="width:100%;"></div>
+          </div>
+        </section>
+        
+        
+      </main>
+    </div>
 
     <footer></footer>
     <script src="src/index.js"></script>

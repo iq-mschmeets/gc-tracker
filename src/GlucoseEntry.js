@@ -10,7 +10,7 @@ GlucoseEntryTemplate.innerHTML = `
             padding: .5em 1.5em; 
             background-color:#77BC07;
             color:white;
-            border:1px solid #685069; 
+            border:1px solid white;/*#685069; */
             height:2.5em;
             display:block;
             margin: 1.2em auto;
