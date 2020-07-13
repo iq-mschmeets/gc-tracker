@@ -6,8 +6,9 @@ GlucoseEntryTemplate.innerHTML = `
     <style>
         input{ padding: .5em; border: 1px solid #dadada;min-width:11em;height:1.5em;}
         label{ color: #888; display:block;}
-        button{ 
-            padding: .5em 1.5em; 
+        .hidden{ display:none; }
+        button{
+            padding: .5em 1.5em;
             background-color:#77BC07;
             color:white;
             border:1px solid white;/*#685069; */
@@ -15,13 +16,18 @@ GlucoseEntryTemplate.innerHTML = `
             display:block;
             margin: 1.2em auto;
         }
+        #multi-inputs{
+            display:flex;
+            flex-direction:column;
+        }
         .bar{
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             grid-template-rows: 1fr;
             grid-column-gap: 13px;
             grid-row-gap: 0px;
-            }
+        }
+
         elix-date-combo-box{min-width:10em;height:20px;}
     </style>
     <div class="bar">
@@ -33,11 +39,29 @@ GlucoseEntryTemplate.innerHTML = `
             <label id="timeLabel" for="time">Time:</label>
             <input type="time" id="time" />
         </div>
+        <datalist id="measure-type-list" >
+            <option>Glucose</option>
+            <option>Blood Pressure</option>
+            <option>A1C</option>
+            <option>Weight</option>
+            <option>Temperature</option>
+        </datalist>
         <div>
-            <label for="bgc">Enter meter reading</label>
-            <input type="number" id="bgc" placeholder="Enter glucose" />
+            <label for="measare-type">Type</label>
+            <input type="text" id="measure-type" list="measure-type-list" />
         </div>
-
+         <div class="single-input">
+            <label for="single-value-input">Enter value</label>
+            <input type="number" id="single-value-input" placeholder="" />
+        </div>
+        <div class="multi-inputs hidden" >
+            <label for="systolic-input">Systolic</label>
+            <input type="number" id="systolic-input" />
+            <label for="diastolic-input">Diastolic</label>
+            <input type="number" id="diastolic-input" />
+            <label for="puls-input">Heart Rate</label>
+            <input type="number" id="pulse-input" />
+        </div>
         <button id="addMeasure">
             <i class="fas fa-plus"></i> Add
         </button>
@@ -59,13 +83,16 @@ class GlucoseEntry extends HTMLElement{
         this._isAttached = false;
 
         this.onClick = this.onClick.bind( this );
+        this.onTypeChange = this.onTypeChange.bind( this );
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild( GlucoseEntryTemplate.content.cloneNode( true ) );
 
     }
+
     onClick( evt ) {
         console.log( "GlucoseEntry.onClick %o, %o", evt, this.shadowRoot.querySelector( 'input' ) );
 
+        const typeInput = this.shadowRoot.querySelector( "input#measure-type" );
         const input = this.shadowRoot.querySelector( 'input#bgc' );
         const dateBox = this.shadowRoot.querySelector( 'input#date' );
         const timeBox = this.shadowRoot.querySelector( 'input#time' );
@@ -76,7 +103,8 @@ class GlucoseEntry extends HTMLElement{
                     type: 'new-item',
                     payload: {
                         value: input.value,
-                        date: new Date( Date.parse(dateBox.value+" "+timeBox.value) )
+                        date: new Date( Date.parse( dateBox.value + " " + timeBox.value ) ),
+                        type : typeInput.value
                     }
                 }
             } ) );
@@ -85,24 +113,47 @@ class GlucoseEntry extends HTMLElement{
             input.focus();
 
     }
+
+    onTypeChange( evt ) {
+        let input = this.shadowRoot.querySelector( "input#measure-type" );
+        if ( input.value == "Blood Pressure" ) {
+            this.shadowRoot.querySelector( ".single-input" ).classList.add( "hidden" );
+            this.shadowRoot.querySelector( ".multi-inputs" ).classList.remove( "hidden" );
+            requestAnimationFrame( () => this.shadowRoot.querySelector( "input#systolic-input" ).focus() );
+        } else {
+            this.shadowRoot.querySelector( ".single-input" ).classList.remove( "hidden" );
+            this.shadowRoot.querySelector( ".multi-inputs" ).classList.add( "hidden" );
+            this.shadowRoot.querySelector( "label[for='single-value-input']" ).textContent = "Enter "+input.value+" value";
+            requestAnimationFrame( () => this.shadowRoot.querySelector( "input#single-value-input" ).focus() );
+        }
+
+        console.log( "GlucoseEntry.onTypeChange %o, %s", evt, input.value );
+
+    }
+
     connectedCallback() {
         console.log( "GlucoseEntry.connectedCallback" );
         this._isAttached = true;
         this.shadowRoot.querySelector( "button#addMeasure" ).addEventListener( "click", this.onClick );
+        this.shadowRoot.querySelector( "input#measure-type" ).addEventListener( "change", this.onTypeChange );
 
         this.initializeTimeDateControls( new Date() )
     }
+
     disconnectedCallback() {
         this._isAttached = false;
         this.shadowRoot.querySelector( "button#addMeasure" ).removeEventListener( "click", this.onClick );
+        this.shadowRoot.querySelector( "input#measure-type" ).removeEventListener( "change", this.onTypeChange );
     }
+
     initializeTimeDateControls( dt ) {
         const dateStr = dt.getFullYear() + "-" + normalizeTimeDate( dt.getMonth() + 1 ) + "-" + normalizeTimeDate( dt.getDate() );
         const timeStr = normalizeTimeDate( dt.getHours() ) + ":" + normalizeTimeDate( dt.getMinutes() );
         this.shadowRoot.querySelector( 'input#date' ).setAttribute("value", dateStr);
         this.shadowRoot.querySelector( 'input#time' ).setAttribute( "value", timeStr );
-        
+
     }
+
 }
 
 

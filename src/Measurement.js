@@ -1,11 +1,11 @@
 const MeasurementTemplate = document.createElement("template");
 MeasurementTemplate.innerHTML = `
   <style>
-    div.measure{ 
-      display:flex; 
-      flex-direction:row; 
+    div.measure{
+      display:flex;
+      flex-direction:row;
       justify-content:space-between;
-      
+
       border: 1px solid #eaeaea;
       padding: .25em;
     }
@@ -33,11 +33,11 @@ MeasurementTemplate.innerHTML = `
 const MeasurementEditTemplate = document.createElement("template");
 MeasurementEditTemplate.innerHTML = `
   <style>
-    div.measure{ 
-      display:flex; 
-      flex-direction:row; 
+    div.measure{
+      display:flex;
+      flex-direction:row;
       justify-content:space-between;
-      
+
       border: 1px solid #eaeaea;
       padding: .25em;
     }
@@ -63,6 +63,7 @@ MeasurementEditTemplate.innerHTML = `
     <button id="save"><i class="fas fa-save"></i> Save</button>
   </div>
 `;
+
 class Measurement extends HTMLElement {
   constructor() {
     super();
@@ -77,9 +78,11 @@ class Measurement extends HTMLElement {
     this.onEdit = this.onEdit.bind( this );
     this.onDelete = this.onDelete.bind( this );
   }
+
   static get observedAttributes() {
     return ["value", "date"];
   }
+
   attributeChangedCallback(name, oldVal, newVal) {
     if (name === "value") {
       this.value = newVal;
@@ -89,43 +92,54 @@ class Measurement extends HTMLElement {
       this.id = newVal;
     }
   }
+
   get value() {
     return this._value;
   }
+
   get date() {
     return this._date;
   }
+
   set value(val) {
     this._value = val;
     this.render();
   }
+
   set date(val) {
     this._date = val;
     this.render();
   }
+
   set id( val ) {
     this._id = val;
   }
+
   connectedCallback() {
     this._isAttached = true;
     this.addNormalButtons();
     this.render();
-    
+
   }
+
   addNormalButtons() {
     this.shadowRoot.getElementById( 'edit' ).addEventListener( "click", this.onEdit );
     this.shadowRoot.getElementById( 'delete' ).addEventListener( "click", this.onDelete );
   }
+
   removeNormalButtons() {
     this.shadowRoot.getElementById( 'edit' ).removeEventListener( "click", this.onEdit );
-    this.shadowRoot.getElementById( 'delete' ).removeEventListener( "click", this.onDelete );    
+    this.shadowRoot.getElementById( 'delete' ).removeEventListener( "click", this.onDelete );
   }
+
   addEditButtons() {
-    
+
   }
+
   removeEditButtons() {
-    
+
   }
+
   disconnectedCallback() {
     this._isAttached = false;
     if ( this._isEditing ) {
@@ -134,6 +148,7 @@ class Measurement extends HTMLElement {
       this.removeNormalButtons();
     }
   }
+
   setTemplateInShadow( yesno ){
     if ( yesno ) {
       this.shadowRoot.innerHTML = "";
@@ -143,15 +158,17 @@ class Measurement extends HTMLElement {
       this.shadowRoot.appendChild( MeasurementEditTemplate.content.cloneNode( true ) );
     }
   }
+
   onEdit( evt ) {
     evt.preventDefault();
     this._isEditing = true;
     this.setTemplateInShadow( false );
-   
+
     this.addEditButtons();
     this.render();
     console.log( "%s.onEdit", this.tagName );
   }
+
   onDelete( evt ) {
     evt.preventDefault();
     console.log( "%s.onDelete", this.tagName );
@@ -167,6 +184,7 @@ class Measurement extends HTMLElement {
       }
   } ) );
   }
+
   render() {
     if (this._isAttached && !this._isEditing ) {
       this.shadowRoot.getElementById("date").textContent = this.date;
@@ -177,6 +195,7 @@ class Measurement extends HTMLElement {
       this.shadowRoot.getElementById("value").setAttribute("valule", this.value);
     }
   }
+  
 }
 export default Measurement;
 try {
