@@ -93,7 +93,7 @@ class GlucoseEntry extends HTMLElement{
         console.log( "GlucoseEntry.onClick %o, %o", evt, this.shadowRoot.querySelector( 'input' ) );
 
         const typeInput = this.shadowRoot.querySelector( "input#measure-type" );
-        const input = this.shadowRoot.querySelector( 'input#bgc' );
+        const input = this.shadowRoot.querySelector( 'input#single-value-input' );
         const dateBox = this.shadowRoot.querySelector( 'input#date' );
         const timeBox = this.shadowRoot.querySelector( 'input#time' );
         console.log( "GlucoseEntery date %s, time %s", dateBox.value, timeBox.value );

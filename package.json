@@ -5,10 +5,12 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "bootstrap": "node ./bootstrap-fauna-database.js"
   },
   "dependencies": {
-    "elix": "14.0.0"
+    "elix": "14.0.0",
+    "faunadb": "^2.14.2"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",

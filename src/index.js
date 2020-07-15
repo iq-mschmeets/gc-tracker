@@ -10,44 +10,31 @@ GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );}
 let store = getStore();
 
 function addMeasurement(payload) {
-  let date = new Date(Date.now());
   store = getStore();
 
-  store.items.push({
-    date: date,
-    value: parseInt(payload.value),
-    user: payload.user || "Mark",
-    type : payload.type,
-    day: payload.date.getDate(),
-    month: payload.date.getMonth()+1,
-    year: payload.date.getFullYear(),
-    id: date.getTime(),
-    note:''
-  } );
+  if ( payload.date == null ) {
+    payload.date = new Date( Date.now() )
+  }
+  if( !Array.isArray(payload.value) ){
+    payload.value = [parseInt(payload.value)]
+  }
+  if( !payload.user ) {
+    payload.user = "mschmeets@gmail.com";
+  }
+    store.items.push( {
+      date: payload.date,
+      value: payload.value,
+      user: payload.user,
+      type: payload.type,
+      month: payload.date.getMonth() + 1,
+      year: paylaod.date.getFullYear(),
+      day: payload.date.getDate(),
+      id: payload.date.getTime(),
+      note: payload.note
+    } );
+
   store = saveStore( store );
 }
-/*
-if( payload.date == null ){
-  payload.date = new Date(Date.now())
-if( !Array.isArray(payload.value) ){
-  payload.value = [parseInt(payload.value)]
-}
-{
-  date : payload.date,
-  value :payload.value,
-  user : payload.user,
-  type : payload.type,
-  month : payload.date.getMonth()+1,
-  year : paylaod.date.getFullYear(),
-  day : payload.date.getDate(),
-  id : payload.user="_"+payload.date.getTime(),
-  note : payload.note
-}
-
-
-
-*/
-
 
 
 function renderRecentMeasureList(items, selector = "recent-measure-list") {
@@ -71,14 +58,20 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     }, 0);
 
     let avg = total / items.length;
+    let a1c = ( avg + 46.7 ) / 28.7;
     let h3 = null;
     if ( !document.querySelector( "section.recents h3" ) ) {
       h3 = document.createElement( "h3" );
+      h3.appendChild( document.createElement( "span" ) );
+      h3.appendChild( document.createElement( "span" ) );
       document.querySelector("section.recents").appendChild(h3);
     } else {
       h3 = document.querySelector( "section.recents h3" );
     }
-    h3.textContent = "Average of Recent Measures: " + avg.toFixed(0);
+
+    h3.querySelector( "span:first-of-type" ).textContent = "Average of Recent Measures: " + avg.toFixed( 0 );
+    h3.querySelector( "span:last-of-type" ).textContent = "  Estimated A1c: " + a1c.toFixed( 1 );
+
   }
 }
 
@@ -112,6 +105,8 @@ function renderRecentChart( items, selector = "#chart-div" ) {
       0: {  }
     }
   };
+
+  // CandlestickChart  data structure array with Date, low, avg, avg, high, so bucket by day and compute values.
 
   var chart = new GoogleCharts.api.visualization.LineChart(document.querySelector(selector));
   chart.draw(data, options);

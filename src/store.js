@@ -5,7 +5,11 @@ export const getStore = () => {
     store = JSON.parse( store );
     store.items = store.items.filter( ( item ) => item )
     store.items = store.items.map(item => {
-      return Object.assign( {},item,{ date: new Date( Number( item.date ) ) }) ;
+      let newItem = Object.assign( {}, item, { date: new Date( Number( item.date ) ) } );
+      if ( !Array.isArray( newItem.value ) ) {
+        newItem.value = [newItem.value]
+      }
+      return newItem
     });
     console.log("STORE: ", store);
   } else {
