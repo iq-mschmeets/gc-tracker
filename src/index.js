@@ -9,6 +9,15 @@ GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );}
 
 let store = getStore();
 
+function createItem( data ) {
+  return fetch( '/.netlify/functions/items-create', {
+    body: JSON.stringify( data ),
+    method: "POST"
+  } ).then( ( response ) => {
+    return response.json()
+  } );
+}
+
 function addMeasurement(payload) {
   store = getStore();
 
@@ -21,21 +30,40 @@ function addMeasurement(payload) {
   if( !payload.user ) {
     payload.user = "mschmeets@gmail.com";
   }
-    store.items.push( {
+  const newItem =   {
       date: payload.date,
       value: payload.value,
       user: payload.user,
       type: payload.type,
       month: payload.date.getMonth() + 1,
-      year: paylaod.date.getFullYear(),
+      year: payload.date.getFullYear(),
       day: payload.date.getDate(),
       id: payload.date.getTime(),
       note: payload.note
-    } );
+    };
 
+
+  store.items.push( newItem );
   store = saveStore( store );
+
+  createItem( newItem ).then( ( response ) => {
+    console.log( "API response ", response );
+  } ).catch( ( error ) => {
+    console.log( "API error ", error );
+  })
 }
 
+function downloadData() {
+  let store = getStore();
+  console.log( "downloadData" );
+  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.items));
+  let dlAnchorElem = document.getElementById('downloadAnchorElem');
+  dlAnchorElem.setAttribute("href",     dataStr     );
+  dlAnchorElem.setAttribute("download", "data.json");
+  dlAnchorElem.click();
+  console.log( "leaving downLoadData" );
+}
+//jkdfsjk  df
 
 function renderRecentMeasureList(items, selector = "recent-measure-list") {
   const list = document.getElementById(selector);
@@ -121,13 +149,14 @@ function update() {
 // window.addEventListener("DOMContentLoaded", () => {
 try {
   console.log("entering dcl");
-
+  //downloadData();
 
 
   document.body.addEventListener( "new-item", ( evt ) => {
     console.log("new-item %o", evt);
     addMeasurement(evt.detail.payload);
     update();
+    
   } );
 
   update();
