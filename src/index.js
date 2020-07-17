@@ -10,10 +10,12 @@ GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );}
 let store = getStore();
 
 function createItem( data ) {
+  console.log( "Entering createItem: %o", data );
   return fetch( '/.netlify/functions/items-create', {
     body: JSON.stringify( data ),
     method: "POST"
   } ).then( ( response ) => {
+    console.log( "createItem.then response: %o", response );
     return response.json()
   } );
 }
