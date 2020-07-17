@@ -10,7 +10,8 @@ export const getStore = () => {
         newItem.value = [newItem.value]
       }
       return newItem
-    });
+    } );
+    store.items.sort( ( a, b ) => { return (a.id < b.id) ? -1 : 1 })
     console.log("STORE: ", store);
   } else {
     store = {};
