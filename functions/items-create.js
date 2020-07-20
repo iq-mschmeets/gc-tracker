@@ -1,14 +1,13 @@
 
 
-import faunadb from 'faunadb';
+// import { query, Client } from 'faunadb';
+const faunadb = require('faunadb')
+const q = faunadb.query
 
+exports.handler = async (event, context) => {
+    const client = new faunadb.Client( { secret: process.env.FAUNADB_SECRET } );
 
-const q = faunadb.query;
-const client = new faunadb.Client( { secret: process.env.FAUNADB_SECRET } );
-
-exports.handler = ( event, context, callback ) => {
     const data = JSON.parse( event.body );
-
     const newItem = {
         data: data
     };
@@ -18,16 +17,16 @@ exports.handler = ( event, context, callback ) => {
         newItem
     ) ).then( ( response ) => {
         console.log( "item-create success: ", response );
-        return callback( null, {
+        return {
             statusCode: 200,
             body: JSON.stringify( response )
-        } );
+        }
     } ).catch( ( error ) => { 
         console.log( "item-create error: ", error );
-        return callback( null, {
+        return {
             statusCode: 400,
-            body: JSON.stringify( error );
-        })
+            body: JSON.stringify( error )
+        }
     })
 
 }

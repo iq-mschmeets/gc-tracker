@@ -1,14 +1,14 @@
 
-import faunadb from 'faunadb'
+// import faunadb from 'faunadb'
+const faunadb = require('faunadb')
+const q = faunadb.query
 
-const q = faunadb.query;
-const client = new faunadb.Client( { secret: process.env.FAUNADB_SECRET } );
-
-exports.handler = ( event, context, callback ) => {
+exports.handler = async (event, context) =>  {
     const user = event.queryStringParameters.user;
     const month = event.queryStringParameters.month;
     const year = event.queryStringParameters.year;
-
+    
+    const client = new faunadb.Client( { secret: process.env.FAUNADB_SECRET } );
     return client.query(
         q.Map(
             q.Paginate(
@@ -17,16 +17,16 @@ exports.handler = ( event, context, callback ) => {
         )
     ).then( ( response ) => {
         console.log( "items-read-month success: ", response );
-        return callback( null, {
+        return {
             statusCode: 200,
             body: JSON.stringify( response )
-        } );
+        };
     } ).catch( ( error ) => { 
         console.log( "items-read-month error: ", error );
-        return callback( null, {
+        return {
             statusCode: 400,
             body: JSON.stringify(error)
-        })
+        }
     } );
 
- };
+ }

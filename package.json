@@ -1,10 +1,14 @@
 {
-  "name": "vanilla",
+  "name": "gc-tracker",
   "version": "1.0.0",
   "description": "JavaScript example starter project",
   "main": "index.html",
   "scripts": {
-    "start": "parcel index.html --open",
+    "start2": "parcel index.html --open",
+    "start" : "npm-run-all --parallel start:app start:server",
+    "start:server":"netlify-lambda serve functions",
+    "start:app" : "parcel index.html --open",
+    "start": "netlify dev",
     "build": "parcel build index.html",
     "bootstrap": "node ./bootstrap-fauna-database.js"
   },
@@ -15,6 +19,7 @@
   "devDependencies": {
     "@babel/core": "7.2.0",
     "google-charts": "^2.0.0",
+    "netlify-cli": "^2.58.0",
     "netlify-lambda": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.6.1"
