@@ -37,3 +37,51 @@ export const saveStore = store => {
   return getStore();
 };
 ;
+
+export const loadThisMonth = ( user ) => {
+  let today = new Date( Date.now() );
+  return loadMonth(
+    user,
+    today.getFullYear(),
+    today.getMonth() + 1
+  )
+}
+
+function transformFaunaDocument( item ) {
+  let newItem = Object.assign( {}, item.data, { date: new Date( Number( item.data.date ) ) } );
+  if ( !Array.isArray( newItem.value ) ) {
+    newItem.value = [newItem.value]
+  }
+  return newItem
+}
+
+function transformFaunaResponse( response ) {
+  let fauna = data.data;
+
+  let items = fauna.map(transformFaunaDocument);
+  items.sort( ( a, b ) => { return (a.id < b.id) ? -1 : 1 })
+
+  console.log( "loadMonth.then response: %o, %o", items, fauna );
+
+  return {
+    fauna: fauna,
+    items: items
+  };
+}
+
+export const loadMonth = (user,year,month) => {
+  const data = { user, year, month };
+
+    console.log( "Entering loadMonth: %o", data );
+    return fetch( '/.netlify/functions/items-read-month', {
+      body: JSON.stringify( data ),
+      method: "POST"
+    } ).then( ( response ) => {
+      return response.json()
+    } ).then( ( data ) => { 
+      return transformFaunaResponse( data );
+    } ).catch( ( error ) => {
+      console.log( "loadMonth.catch %o", error );
+     });
+  
+}

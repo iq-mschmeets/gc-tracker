@@ -1,13 +1,21 @@
 import "./styles.css";
-import { getStore, saveStore } from "./store.js";
+import { getStore, saveStore, loadThisMonth } from "./store.js";
 import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
 import { GoogleCharts } from 'google-charts';
 
 let chartReady = false;
+let storeReady = false;
 GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );});
 
+
 let store = getStore();
+loadThisMonth("mschmeets@gmail.com").then( ( data ) => { 
+  console.log( "loadThisMonth %o", data );
+  store = data;
+  storeReady = true;
+  update();
+})
 
 function createItem( data ) {
   console.log( "Entering createItem: %o", data );
@@ -143,8 +151,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
 }
 
 function update() {
-  renderRecentMeasureList( store.items );
-  renderRecentChart( store.items );
+  if ( storeReady ) {
+    renderRecentMeasureList( store.items );
+    renderRecentChart( store.items );
+  }
 
 }
 
