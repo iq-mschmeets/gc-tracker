@@ -78,8 +78,8 @@ function deleteMeasurement( payload ) {
   } );
 
   console.log( "deleteMeasurement found document: %o", item );
-  
-  deleteItem( item ).then( ( response ) => { 
+
+  deleteItem( item[0] ).then( ( response ) => { 
     console.log( "deleteItem return %o", response );
     // if db deleted, then we removed from the local arrays.
     const fDelete = new Set( item );
