@@ -183,7 +183,7 @@ class Measurement extends HTMLElement {
           payload: {
             value: this.value,
             date: this.date,
-            id: this.measureId
+            id: this.measureId || this.getAttribute('data-id')
           }
       }
   } ) );
