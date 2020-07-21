@@ -1,5 +1,5 @@
 import "./styles.css";
-import { getStore, saveStore, loadThisMonth, filterInPlace } from "./store.js";
+import { getStore, saveStore, loadThisMonth, filterInPlace, getDBId } from "./store.js";
 import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
 import { GoogleCharts } from 'google-charts';
@@ -27,8 +27,10 @@ function createItem( data ) {
   } );
 }
 
-function deleteItem(faunaId) {
-  return fetch(`/.netlify/functions/item-delete/${faunaId}`, {
+function deleteItem( faunaId ) {
+  const url = `/.netlify/functions/item-delete/${faunaId}`;
+  console.log( "deleteItem arg: %s url %s", faunaId, url );
+  return fetch( url, {
     method: 'POST',
   }).then(response => {
     return response.json()
@@ -77,14 +79,14 @@ function deleteMeasurement( payload ) {
     return targetId === doc.data.id;
   } );
 
-  console.log( "deleteMeasurement found document: %o", item );
+  console.log( "deleteMeasurement found document: %o", item, getDBId( item[0]) );
 
-  deleteItem( item[0] ).then( ( response ) => { 
+  deleteItem( getDBId(item[0]) ).then( ( response ) => { 
     console.log( "deleteItem return %o", response );
     // if db deleted, then we removed from the local arrays.
     const fDelete = new Set( item );
     const iDelete = new Set( [targetId] );
-    filterInPlace( store.fauna, obj => !fDelete.has( obj.id ) );
+    filterInPlace( store.fauna, obj => !fDelete.has( obj.ts ) );
     filterInPlace( store.items, obj => !iDelete.has( obj.id ) );
     update();
   } ).catch( ( error ) => { 

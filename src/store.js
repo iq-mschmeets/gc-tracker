@@ -100,3 +100,10 @@ export const filterInPlace = (array, predicate) => {
 
   array.length = end;
 };
+
+export const getDBId = (fobj) => {
+  if (!fobj.ref) {
+    return null
+  }
+  return fobj.ref['@ref'].id
+}
