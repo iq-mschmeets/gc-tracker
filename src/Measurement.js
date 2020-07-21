@@ -27,9 +27,9 @@ MeasurementTemplate.innerHTML = `
     <span id="value"></span>
     <span id="date"></span>
     <button id="delete"><i class="fas fa-trash"></i></button>
-    <button id="edit"><i class="fas fa-edit"></i></button>
   </div>
 `;
+// -- UNUSED now, delete only.
 const MeasurementEditTemplate = document.createElement("template");
 MeasurementEditTemplate.innerHTML = `
   <style>
@@ -150,13 +150,13 @@ class Measurement extends HTMLElement {
   }
 
   setTemplateInShadow( yesno ){
-    if ( yesno ) {
+    // if ( yesno ) {
       this.shadowRoot.innerHTML = "";
       this.shadowRoot.appendChild( MeasurementTemplate.content.cloneNode( true ) );
-    } else {
-      this.shadowRoot.innerHTML = "";
-      this.shadowRoot.appendChild( MeasurementEditTemplate.content.cloneNode( true ) );
-    }
+    // } else {
+    //   this.shadowRoot.innerHTML = "";
+    //   this.shadowRoot.appendChild( MeasurementEditTemplate.content.cloneNode( true ) );
+    // }
   }
 
   onEdit( evt ) {

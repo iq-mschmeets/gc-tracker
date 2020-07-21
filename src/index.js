@@ -9,7 +9,7 @@ let storeReady = false;
 GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );});
 
 
-let store = getStore();
+let store = {items:[]}
 loadThisMonth("mschmeets@gmail.com").then( ( data ) => { 
   console.log( "loadThisMonth %o", data );
   store = data;
@@ -23,13 +23,11 @@ function createItem( data ) {
     body: JSON.stringify( data ),
     method: "POST"
   } ).then( ( response ) => {
-    console.log( "createItem.then response: %o", response );
     return response.json()
   } );
 }
 
 function addMeasurement(payload) {
-  store = getStore();
 
   if ( payload.date == null ) {
     payload.date = new Date( Date.now() )
@@ -54,13 +52,23 @@ function addMeasurement(payload) {
 
 
   store.items.push( newItem );
-  store = saveStore( store );
+  //store = saveStore( store );
 
   createItem( newItem ).then( ( response ) => {
+    store.fauna.push( response );
     console.log( "API response ", response );
   } ).catch( ( error ) => {
     console.log( "API error ", error );
   })
+}
+
+function deleteMeasurement( payload ) {
+  console.log( "deleteMeasurement %o", payload );
+  let item = store.fauna.filter( ( doc ) => {
+    return payload.id === doc.data.id;
+  } );
+
+  console.log( "deleteMeasurement found document: %o", item );
 }
 
 function downloadData() {
@@ -87,7 +95,6 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     measure.setAttribute("date", dstr);
     measure.setAttribute("value", item.value);
     li.append(measure);
-    console.log(item);
   });
 
   if (items.length > 0) {
@@ -115,6 +122,9 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
 
 function renderRecentChart( items, selector = "#chart-div" ) {
 
+  if ( !items || items.length == 0 ) {
+    return;
+  }
   let rows = items.map( item => [ item.day + '/' + item.month, parseInt(item.value) ] );
   rows.unshift( [ 'Date', 'Glucose' ] );
   console.log( "Chart data ", rows.slice() );
@@ -169,6 +179,12 @@ try {
     addMeasurement(evt.detail.payload);
     update();
     
+  } );
+
+  document.body.addEventListener( "delete-item", ( evt ) => { 
+    console.log( "delete-item %o", evt );
+    deleteMeasurement( evt.detail.payload );
+    update();
   } );
 
   update();

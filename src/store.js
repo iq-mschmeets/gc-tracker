@@ -48,7 +48,7 @@ export const loadThisMonth = ( user ) => {
 }
 
 function transformFaunaDocument( item ) {
-  let newItem = Object.assign( {}, item.data, { date: new Date( Number( item.data.date ) ) } );
+  let newItem = Object.assign( {}, item.data, { date: new Date( Number( item.data.id ) ) } );
   if ( !Array.isArray( newItem.value ) ) {
     newItem.value = [newItem.value]
   }
@@ -56,7 +56,7 @@ function transformFaunaDocument( item ) {
 }
 
 function transformFaunaResponse( response ) {
-  let fauna = data.data;
+  let fauna = response.data;
 
   let items = fauna.map(transformFaunaDocument);
   items.sort( ( a, b ) => { return (a.id < b.id) ? -1 : 1 })
@@ -79,6 +79,7 @@ export const loadMonth = (user,year,month) => {
     } ).then( ( response ) => {
       return response.json()
     } ).then( ( data ) => { 
+      console.log( "Returned from items-read-month: %o", data );
       return transformFaunaResponse( data );
     } ).catch( ( error ) => {
       console.log( "loadMonth.catch %o", error );
