@@ -123,12 +123,12 @@ class Measurement extends HTMLElement {
   }
 
   addNormalButtons() {
-    this.shadowRoot.getElementById( 'edit' ).addEventListener( "click", this.onEdit );
+    // this.shadowRoot.getElementById( 'edit' ).addEventListener( "click", this.onEdit );
     this.shadowRoot.getElementById( 'delete' ).addEventListener( "click", this.onDelete );
   }
 
   removeNormalButtons() {
-    this.shadowRoot.getElementById( 'edit' ).removeEventListener( "click", this.onEdit );
+    // this.shadowRoot.getElementById( 'edit' ).removeEventListener( "click", this.onEdit );
     this.shadowRoot.getElementById( 'delete' ).removeEventListener( "click", this.onDelete );
   }
 
