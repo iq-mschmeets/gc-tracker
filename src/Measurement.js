@@ -80,7 +80,7 @@ class Measurement extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["value", "date"];
+    return ["value", "date", "data-id"];
   }
 
   attributeChangedCallback(name, oldVal, newVal) {

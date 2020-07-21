@@ -64,8 +64,9 @@ function addMeasurement(payload) {
 
 function deleteMeasurement( payload ) {
   console.log( "deleteMeasurement %o", payload );
+  const targetId = parseInt( payload.id );
   let item = store.fauna.filter( ( doc ) => {
-    return payload.id === doc.data.id;
+    return targetId === doc.data.id;
   } );
 
   console.log( "deleteMeasurement found document: %o", item );
