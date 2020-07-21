@@ -1,5 +1,5 @@
 import "./styles.css";
-import { getStore, saveStore, loadThisMonth } from "./store.js";
+import { getStore, saveStore, loadThisMonth, filterInPlace } from "./store.js";
 import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
 import { GoogleCharts } from 'google-charts';
@@ -25,6 +25,14 @@ function createItem( data ) {
   } ).then( ( response ) => {
     return response.json()
   } );
+}
+
+function deleteItem(faunaId) {
+  return fetch(`/.netlify/functions/item-delete/${faunaId}`, {
+    method: 'POST',
+  }).then(response => {
+    return response.json()
+  })
 }
 
 function addMeasurement(payload) {
@@ -70,6 +78,18 @@ function deleteMeasurement( payload ) {
   } );
 
   console.log( "deleteMeasurement found document: %o", item );
+  
+  deleteItem( item ).then( ( response ) => { 
+    console.log( "deleteItem return %o", response );
+    // if db deleted, then we removed from the local arrays.
+    const fDelete = new Set( item );
+    const iDelete = new Set( [targetId] );
+    filterInPlace( store.fauna, obj => !fDelete.has( obj.id ) );
+    filterInPlace( store.items, obj => !iDelete.has( obj.id ) );
+    update();
+  } ).catch( ( error ) => { 
+    console.log( "Delete API error: %o", error );
+  });
 }
 
 function downloadData() {
