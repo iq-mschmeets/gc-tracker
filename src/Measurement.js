@@ -88,8 +88,8 @@ class Measurement extends HTMLElement {
       this.value = newVal;
     } else if (name === "date") {
       this.date = newVal;
-    } else if ( name === "id" ) {
-      this.id = newVal;
+    } else if ( name === "data-id" ) {
+      this.measureId = newVal;
     }
   }
 
@@ -99,6 +99,10 @@ class Measurement extends HTMLElement {
 
   get date() {
     return this._date;
+  }
+
+  get measureId() {
+    return this._id;
   }
 
   set value(val) {
@@ -111,7 +115,7 @@ class Measurement extends HTMLElement {
     this.render();
   }
 
-  set id( val ) {
+  set measureId( val ) {
     this._id = val;
   }
 
@@ -179,7 +183,7 @@ class Measurement extends HTMLElement {
           payload: {
             value: this.value,
             date: this.date,
-            id: this._id
+            id: this.measureId
           }
       }
   } ) );

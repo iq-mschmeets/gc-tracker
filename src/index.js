@@ -93,8 +93,8 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
     let measure = new Measurement();
     let dstr = item.date.toLocaleString("en-US");
     measure.setAttribute("date", dstr);
-    measure.setAttribute( "value", item.value );
-    measure.setAttribute( "id", item.id );
+    measure.setAttribute("value", item.value );
+    measure.setAttribute("data-id", item.id );
     li.append(measure);
   });
 
