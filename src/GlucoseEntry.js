@@ -9,7 +9,7 @@ GlucoseEntryTemplate.innerHTML = `
         .hidden{ display:none; }
         button{
             padding: .5em 1.5em;
-            background-color:#77BC07;
+            background-color:#0C8341;
             color:white;
             border:1px solid white;/*#685069; */
             height:2.5em;

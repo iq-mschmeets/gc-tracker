@@ -15,7 +15,12 @@ loadThisMonth("mschmeets@gmail.com").then( ( data ) => {
   store = data;
   storeReady = true;
   update();
-})
+} ).catch( ( error ) => {
+  console.error( error );
+  store = getStore();
+  storeReady = true;
+  update();
+ })
 
 function createItem( data ) {
   console.log( "Entering createItem: %o", data );

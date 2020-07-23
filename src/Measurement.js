@@ -6,25 +6,34 @@ MeasurementTemplate.innerHTML = `
       flex-direction:row;
       justify-content:space-between;
 
-      border: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
       padding: .25em;
+      color: #888;
+      font-size: 14px;
     }
     #value{
-      font-weight:500;
+      font-weight: 500;
       flex-basis: 30%;
-      font-size: 1.2em;
+      font-size: 1.4em;
     }
     #date{
       flex-basis: 70%;
       font-weight: 400;
     }
+    .high{
+      color: rgba(202, 32, 39, 1);
+      font-weight:600;
+    }
+    .normal{
+      color: #2E4EA1;
+    }
     .fa-edit{ color: green; }
-    .fa-trash{ color: red; display:inline-block; margin:0 .5em;}
+    .fa-trash{ color: rgba(243, 120, 32, 1); display:inline-block; margin:0 .5em;}
     button{ background-color:white;border:none;}
   </style>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <div class="measure">
-    <span id="value"></span>
+    <span id="value" class="normal"></span>
     <span id="date"></span>
     <button id="delete"><i class="fas fa-trash"></i></button>
   </div>
@@ -37,18 +46,20 @@ MeasurementEditTemplate.innerHTML = `
       display:flex;
       flex-direction:row;
       justify-content:space-between;
-
       border: 1px solid #eaeaea;
       padding: .25em;
     }
     #value{
       font-weight:500;
       flex-basis: 30%;
-      font-size: 1.2em;
+      font-size: 1.4em;
     }
     #date{
       flex-basis: 70%;
       font-weight: 400;
+    }
+    .normal{
+      color: #2E4EA1;
     }
     .fa-edit{ color: green; }
     .fa-trash{ color: red; display:inline-block; margin:0 .5em;}
@@ -72,6 +83,7 @@ class Measurement extends HTMLElement {
     this._id = null;
     this._isAttached = false;
     this._isEditing = false;
+    this._highValue = 145;
 
     this.attachShadow({ mode: "open" });
     this.setTemplateInShadow( true );//this.shadowRoot.appendChild( MeasurementTemplate.content.cloneNode( true ) );
@@ -80,7 +92,7 @@ class Measurement extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["value", "date", "data-id"];
+    return ["value", "date", "data-id", "data-high-value"];
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
@@ -90,6 +102,8 @@ class Measurement extends HTMLElement {
       this.date = newVal;
     } else if ( name === "data-id" ) {
       this.measureId = newVal;
+    } else if ( name = "data-high-value" ) {
+      this._highValue = parseInt( newVal );
     }
   }
 
@@ -154,13 +168,8 @@ class Measurement extends HTMLElement {
   }
 
   setTemplateInShadow( yesno ){
-    // if ( yesno ) {
       this.shadowRoot.innerHTML = "";
       this.shadowRoot.appendChild( MeasurementTemplate.content.cloneNode( true ) );
-    // } else {
-    //   this.shadowRoot.innerHTML = "";
-    //   this.shadowRoot.appendChild( MeasurementEditTemplate.content.cloneNode( true ) );
-    // }
   }
 
   onEdit( evt ) {
@@ -190,16 +199,17 @@ class Measurement extends HTMLElement {
   }
 
   render() {
-    if (this._isAttached && !this._isEditing ) {
+    if ( this._isAttached && !this._isEditing ) {
+      const val = this.shadowRoot.getElementById( "value" );
       this.shadowRoot.getElementById("date").textContent = this.date;
-      this.shadowRoot.getElementById("value").textContent = this.value;
-    }
-    else if ( this._isAttached && this._isEditing ) {
-      this.shadowRoot.getElementById("date").setAttribute('value',this.date);
-      this.shadowRoot.getElementById("value").setAttribute("valule", this.value);
+      val.textContent = this.value;
+      if ( this.value > this._highValue ) {
+        val.classList.add( "high" );
+        val.classList.remove( "normal" );
+      }
     }
   }
-  
+
 }
 export default Measurement;
 try {
