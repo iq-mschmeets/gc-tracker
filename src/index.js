@@ -4,12 +4,12 @@ import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
 import { GoogleCharts } from 'google-charts';
 
-let chartReady = false;
-let storeReady = false;
 GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );});
 
-
+let chartReady = false;
+let storeReady = false;
 let store = {items:[]}
+
 loadThisMonth("mschmeets@gmail.com").then( ( data ) => { 
   console.log( "loadThisMonth %o", data );
   store = data;
@@ -156,41 +156,46 @@ function renderRecentChart( items, selector = "#chart-div" ) {
   }
   let rows = items.map( item => [ item.day + '/' + item.month, parseInt(item.value) ] );
   rows.unshift( [ 'Date', 'Glucose' ] );
-  console.log( "Chart data ", rows.slice() );
-  var data = GoogleCharts.api.visualization.arrayToDataTable( rows );
-  var options = {
-    hAxis: {
-      title: 'Date',
-      logScale: false
-    },
-    vAxis: {
-      title: 'mg/dl',
-      logScale: false,
-      viewWindow: {
-        min: 65,
-        max: 200,
+  // console.log( "Chart data ", rows.slice() );
+  try{
+    let data = GoogleCharts.api.visualization.arrayToDataTable( rows );
+    const options = {
+      hAxis: {
+        title: 'Date',
+        logScale: false
       },
-      viewWindowMode: 'explicit'
-    },
-    legend :{
-      position: 'bottom'
-    },
-    colors: [ '#BEE3FD' ],
-    title: "Recent",
-    pointSize: 7,
-    trendlines: {
-      0: {  }
-    }
-  };
+      vAxis: {
+        title: 'mg/dl',
+        logScale: false,
+        viewWindow: {
+          min: 65,
+          max: 200,
+        },
+        viewWindowMode: 'explicit'
+      },
+      legend :{
+        position: 'bottom'
+      },
+      colors: [ '#BEE3FD' ],
+      title: "Recent",
+      pointSize: 7,
+      trendlines: {
+        0: {  }
+      }
+    };
 
   // CandlestickChart  data structure array with Date, low, avg, avg, high, so bucket by day and compute values.
 
-  var chart = new GoogleCharts.api.visualization.LineChart(document.querySelector(selector));
-  chart.draw(data, options);
+    let chart = new GoogleCharts.api.visualization.LineChart( document.querySelector( selector ) );
+    chart.draw( data, options );
+  } catch ( er ) {
+    console.error( er );
+  }
 }
 
 function update() {
   if ( storeReady ) {
+    console.log( "update.storeReady %o", store.items );
     renderRecentMeasureList( store.items );
     renderRecentChart( store.items );
   }
@@ -216,7 +221,7 @@ try {
     update();
   } );
 
-  update();
+  // update();
 } catch (er) {
   console.error(er);
 }
