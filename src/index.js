@@ -1,16 +1,30 @@
 import "./styles.css";
-import { getStore, saveStore, loadThisMonth, filterInPlace, getDBId } from "./store.js";
+import {
+  getStore,
+  saveStore,
+  loadThisMonth,
+  filterInPlace,
+  getDBId
+} from "./store.js";
 import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
-import { GoogleCharts } from 'google-charts';
+import {
+  GoogleCharts
+} from 'google-charts';
+import DayMeasure from "./DayMeasure";
 
-GoogleCharts.load( () => { chartReady = true; renderRecentChart( store.items );});
+GoogleCharts.load( () => {
+  chartReady = true;
+  renderRecentChart( store.items );
+} );
 
 let chartReady = false;
 let storeReady = false;
-let store = {items:[]}
+let store = {
+  items: []
+}
 
-loadThisMonth("mschmeets@gmail.com").then( ( data ) => { 
+loadThisMonth( "mschmeets@gmail.com" ).then( ( data ) => {
   console.log( "loadThisMonth %o", data );
   store = data;
   storeReady = true;
@@ -20,7 +34,7 @@ loadThisMonth("mschmeets@gmail.com").then( ( data ) => {
   store = getStore();
   storeReady = true;
   update();
- })
+} )
 
 function createItem( data ) {
   console.log( "Entering createItem: %o", data );
@@ -37,33 +51,33 @@ function deleteItem( faunaId ) {
   console.log( "deleteItem arg: %s url %s", faunaId, url );
   return fetch( url, {
     method: 'POST',
-  }).then(response => {
+  } ).then( response => {
     return response.json()
-  })
+  } )
 }
 
-function addMeasurement(payload) {
+function addMeasurement( payload ) {
 
   if ( payload.date == null ) {
     payload.date = new Date( Date.now() )
   }
-  if( !Array.isArray(payload.value) ){
-    payload.value = [parseInt(payload.value)]
+  if ( !Array.isArray( payload.value ) ) {
+    payload.value = [ parseInt( payload.value ) ]
   }
-  if( !payload.user ) {
+  if ( !payload.user ) {
     payload.user = "mschmeets@gmail.com";
   }
-  const newItem =   {
-      date: payload.date,
-      value: payload.value,
-      user: payload.user,
-      type: payload.type,
-      month: payload.date.getMonth() + 1,
-      year: payload.date.getFullYear(),
-      day: payload.date.getDate(),
-      id: payload.date.getTime(),
-      note: payload.note
-    };
+  const newItem = {
+    date: payload.date,
+    value: payload.value,
+    user: payload.user,
+    type: payload.type,
+    month: payload.date.getMonth() + 1,
+    year: payload.date.getFullYear(),
+    day: payload.date.getDate(),
+    id: payload.date.getTime(),
+    note: payload.note
+  };
 
 
   store.items.push( newItem );
@@ -74,7 +88,7 @@ function addMeasurement(payload) {
     console.log( "API response ", response );
   } ).catch( ( error ) => {
     console.log( "API error ", error );
-  })
+  } )
 }
 
 function deleteMeasurement( payload ) {
@@ -84,52 +98,76 @@ function deleteMeasurement( payload ) {
     return targetId === doc.data.id;
   } );
 
-  console.log( "deleteMeasurement found document: %o", item, getDBId( item[0]) );
+  console.log( "deleteMeasurement found document: %o", item, getDBId( item[ 0 ] ) );
 
-  deleteItem( getDBId(item[0]) ).then( ( response ) => { 
+  deleteItem( getDBId( item[ 0 ] ) ).then( ( response ) => {
     console.log( "deleteItem return %o", response );
     // if db deleted, then we removed from the local arrays.
     const fDelete = new Set( item );
-    const iDelete = new Set( [targetId] );
+    const iDelete = new Set( [ targetId ] );
     filterInPlace( store.fauna, obj => !fDelete.has( obj.ts ) );
     filterInPlace( store.items, obj => !iDelete.has( obj.id ) );
     update();
-  } ).catch( ( error ) => { 
+  } ).catch( ( error ) => {
     console.log( "Delete API error: %o", error );
-  });
+  } );
 }
 
 function downloadData() {
   let store = getStore();
   console.log( "downloadData" );
-  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(store.items));
-  let dlAnchorElem = document.getElementById('downloadAnchorElem');
-  dlAnchorElem.setAttribute("href",     dataStr     );
-  dlAnchorElem.setAttribute("download", "data.json");
+  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent( JSON.stringify( store.items ) );
+  let dlAnchorElem = document.getElementById( 'downloadAnchorElem' );
+  dlAnchorElem.setAttribute( "href", dataStr );
+  dlAnchorElem.setAttribute( "download", "data.json" );
   dlAnchorElem.click();
   console.log( "leaving downLoadData" );
 }
 //jkdfsjk  df
 
-function renderRecentMeasureList(items, selector = "recent-measure-list") {
-  const list = document.getElementById(selector);
+function renderRecentMeasureList( items, selector = "recent-measure-list" ) {
+  const list = document.getElementById( selector );
   list.innerHTML = "";
-  items.forEach(item => {
-    var li = document.createElement("li");
-    list.appendChild(li);
 
-    let measure = new Measurement();
-    let dstr = item.date.toLocaleString("en-US");
-    measure.setAttribute("date", dstr);
-    measure.setAttribute("value", item.value );
-    measure.setAttribute("data-id", item.id );
-    li.append(measure);
-  });
+  const dayCollection = items.reduce( ( accum, item ) => {
+    if ( !accum.hasOwnProperty( item.day ) ) {
+      accum[ item.day ] = [];
+    }
+    accum[ item.day ].push( item );
+    return accum;
+  }, {} );
 
-  if (items.length > 0) {
-    let total = items.reduce((accum, item) => {
-      return accum + Number(item.value);
-    }, 0);
+  console.log( "rendermeasureList dayCollection: %o", dayCollection );
+
+
+  Object.keys( dayCollection ).forEach( ( key ) => {
+    const li = document.createElement( "li" );
+    const item = dayCollection[ key ];
+    const dtMeasure = new DayMeasure();
+    dtMeasure.setAttribute( "month", item[0].month );
+    dtMeasure.setAttribute( "day", item[0].day );
+    dtMeasure.measurements = item;
+    li.append( dtMeasure );
+    list.appendChild( li );
+
+   })
+
+  // items.forEach( item => {
+  //   var li = document.createElement( "li" );
+  //   list.appendChild( li );
+
+  //   let measure = new Measurement();
+  //   let dstr = item.date.toLocaleString( "en-US" );
+  //   measure.setAttribute( "date", dstr );
+  //   measure.setAttribute( "value", item.value );
+  //   measure.setAttribute( "data-id", item.id );
+  //   li.append( measure );
+  // } );
+
+  if ( items.length > 0 ) {
+    let total = items.reduce( ( accum, item ) => {
+      return accum + Number( item.value );
+    }, 0 );
 
     let avg = total / items.length;
     let a1c = ( avg + 46.7 ) / 28.7;
@@ -138,7 +176,7 @@ function renderRecentMeasureList(items, selector = "recent-measure-list") {
       h3 = document.createElement( "h3" );
       h3.appendChild( document.createElement( "span" ) );
       h3.appendChild( document.createElement( "span" ) );
-      document.querySelector("section.recents").appendChild(h3);
+      document.querySelector( "section.recents" ).appendChild( h3 );
     } else {
       h3 = document.querySelector( "section.recents h3" );
     }
@@ -154,10 +192,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
   if ( !items || items.length == 0 ) {
     return;
   }
-  let rows = items.map( item => [ item.day + '/' + item.month, parseInt(item.value) ] );
+  let rows = items.map( item => [ item.day + '/' + item.month, parseInt( item.value ) ] );
   rows.unshift( [ 'Date', 'Glucose' ] );
   // console.log( "Chart data ", rows.slice() );
-  try{
+  try {
     let data = GoogleCharts.api.visualization.arrayToDataTable( rows );
     const options = {
       hAxis: {
@@ -173,18 +211,18 @@ function renderRecentChart( items, selector = "#chart-div" ) {
         },
         viewWindowMode: 'explicit'
       },
-      legend :{
+      legend: {
         position: 'bottom'
       },
       colors: [ '#BEE3FD' ],
       title: "Recent",
       pointSize: 7,
       trendlines: {
-        0: {  }
+        0: {}
       }
     };
 
-  // CandlestickChart  data structure array with Date, low, avg, avg, high, so bucket by day and compute values.
+    // CandlestickChart  data structure array with Date, low, avg, avg, high, so bucket by day and compute values.
 
     let chart = new GoogleCharts.api.visualization.LineChart( document.querySelector( selector ) );
     chart.draw( data, options );
@@ -204,25 +242,25 @@ function update() {
 
 // window.addEventListener("DOMContentLoaded", () => {
 try {
-  console.log("entering dcl");
+  console.log( "entering dcl" );
   //downloadData();
 
 
   document.body.addEventListener( "new-item", ( evt ) => {
-    console.log("new-item %o", evt);
-    addMeasurement(evt.detail.payload);
+    console.log( "new-item %o", evt );
+    addMeasurement( evt.detail.payload );
     update();
-    
+
   } );
 
-  document.body.addEventListener( "delete-item", ( evt ) => { 
+  document.body.addEventListener( "delete-item", ( evt ) => {
     console.log( "delete-item %o", evt );
     deleteMeasurement( evt.detail.payload );
     update();
   } );
 
   // update();
-} catch (er) {
-  console.error(er);
+} catch ( er ) {
+  console.error( er );
 }
 // });
