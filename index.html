@@ -17,11 +17,15 @@
     <div class="container">
       <main>
         <div class="row">
+          <div>
+            <label for="user-name">User:</label>
+            <input type="email" id="user-name" placeholder="Enter Username" />
+          </div>
           <gt-glucose-entry></gt-glucose-entry>
         </div>
 
         <section class="recents">
-          <h2>Recent Measures</h2>
+          <h2>This Month:</h2>
           <div class="recent-parent">
             <ul id="recent-measure-list"></ul>
             <div id="chart-div" style="width:100%;"></div>
@@ -31,6 +35,7 @@
             <span></span>
           </h3>
         </section>
+
         <a id="downloadAnchorElem" style="display:none;"></a>
 
       </main>
