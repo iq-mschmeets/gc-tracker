@@ -71,6 +71,7 @@ label {
 }
 .recents{
   width:100%;
+  /* height:60vh; */
 
 }
 .recent-parent {
@@ -79,6 +80,7 @@ label {
   grid-template-rows: 1fr;
   grid-column-gap: 1em;
   padding: .125em .5em;
+  height: 100%;
   }
 ul#recent-measure-list li {
   list-style: none;
@@ -97,6 +99,7 @@ ul#recent-measure-list {
 }
 #chart-div{
   border-radius: .25em;
+  height:100%;
 }
 section.recents h3 span{
   padding: 0 1em;

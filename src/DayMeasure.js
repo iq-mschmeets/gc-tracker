@@ -22,7 +22,7 @@ DayMeasureTemplate.innerHTML = `
         font-size: 1.3em;
       }
       .dmeasure h4{
-          margin: .5em 0;
+          margin: .5em 0 0 0;
       }
       .dmeasure ul{
           padding: 0;
