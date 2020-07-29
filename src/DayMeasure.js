@@ -22,7 +22,7 @@ DayMeasureTemplate.innerHTML = `
         font-size: 1.3em;
 
         color:white;
-        padding: .25em .45em;
+        padding: .35em .45em;
         border-radius: 50%;
         background-color:rgba(56, 88, 191, 1);
       }
