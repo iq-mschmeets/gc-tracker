@@ -66,7 +66,7 @@ DayMeasureTemplate.innerHTML = `
 
     <div class="dmeasure">
       <h4>
-        <span class="day"></span>  <span class="month"></span>
+        <div class="day"></div>  <span class="month"></span>
       </h4>
       <ul>
       </ul>
