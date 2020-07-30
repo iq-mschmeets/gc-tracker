@@ -20,11 +20,12 @@ DayMeasureTemplate.innerHTML = `
       }
       .dmeasure .day{
         font-size: 1.0em;
-        width: 2.0em;
+        width: 1.5em;
         color:white;
-        padding: .35em .45em;
+        padding: .5em .5em;
         border-radius: 50%;
         background-color:rgba(56, 88, 191, 1);
+        text-align:center;
       }
       .dmeasure h4{
           margin: .5em 0 0 0;
