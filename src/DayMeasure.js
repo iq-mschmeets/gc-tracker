@@ -19,7 +19,7 @@ DayMeasureTemplate.innerHTML = `
         justify-content: space-between;
       }
       .dmeasure .day{
-        font-size: 1.3em;
+        font-size: 1.0em;
 
         color:white;
         padding: .35em .45em;
@@ -29,7 +29,7 @@ DayMeasureTemplate.innerHTML = `
       .dmeasure h4{
           margin: .5em 0 0 0;
           border-bottom: 1px solid #eaeaea;
-          padding-bottom: .5em;
+          padding-bottom: .75em;
       }
       .dmeasure ul{
           padding: 0;
@@ -66,7 +66,7 @@ DayMeasureTemplate.innerHTML = `
 
     <div class="dmeasure">
       <h4>
-        <span class="day"></span> - <span class="month"></span>
+        <span class="day"></span>  <span class="month"></span>
       </h4>
       <ul>
       </ul>
@@ -198,7 +198,7 @@ class DayMeasure extends HTMLElement {
         if ( this._isAttached ) {
             
             this.shadowRoot.querySelector( ".day" ).textContent = this.day;
-            this.shadowRoot.querySelector( ".month" ).textContent =  getMonth( this.month - 1 );
+            // this.shadowRoot.querySelector( ".month" ).textContent =  getMonth( this.month - 1 );
             this.renderItems();
         }
     }
