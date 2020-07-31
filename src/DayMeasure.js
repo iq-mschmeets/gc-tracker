@@ -29,8 +29,6 @@ DayMeasureTemplate.innerHTML = `
       }
       .dmeasure h4{
           margin: .5em 0 0 0;
-          border-bottom: 1px solid #eaeaea;
-          padding-bottom: .75em;
       }
       .dmeasure ul{
           padding: 0;
@@ -199,7 +197,7 @@ class DayMeasure extends HTMLElement {
         if ( this._isAttached ) {
             
             this.shadowRoot.querySelector( ".day" ).textContent = this.day;
-            // this.shadowRoot.querySelector( ".month" ).textContent =  getMonth( this.month - 1 );
+            this.shadowRoot.querySelector( ".month" ).textContent =  getMonth( this.month - 1 );
             this.renderItems();
         }
     }

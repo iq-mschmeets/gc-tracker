@@ -229,7 +229,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
 function update() {
   if ( storeReady ) {
     console.log( "ENTERING update: %o", store );
-    document.getElementById( 'month-label' ).textContent = store.month + ", " + store.year;
+    // document.getElementById( 'month-label' ).textContent = store.month + ", " + store.year;
     console.log( "update.storeReady %o", store.items );
     renderRecentMeasureList( store.items );
     renderRecentChart( store.items );
