@@ -17,7 +17,7 @@ DayMeasureTemplate.innerHTML = `
       }
       
       .dmeasure .dm-item{
-        margin-left:30%;
+        margin-left:10%;
         display:flex;
         justify-content: space-between;
       }

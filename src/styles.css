@@ -142,7 +142,7 @@ gt-glucose-entry{
   margin: .5em .5em 0 0;
   display:block;
 }
-.user-box input,
+#initial-user-name,
 .user-box select{
   padding: .5em;
   border: 1px solid #dadada;

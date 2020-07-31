@@ -285,6 +285,7 @@ try {
       document.getElementById( "initial-template" ).content.cloneNode( true )
     );
     let userField = main.querySelector( 'input' );
+    requestAnimationFrame( () => userField.focus() );
     userField.addEventListener( "change", function(evt) {
       const userID = evt.target.value;
       pageState.user = userID;
