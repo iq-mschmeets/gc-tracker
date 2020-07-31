@@ -99,6 +99,7 @@ ul#recent-measure-list {
   border: 1px solid #eaeaea;
   border-radius: .25em;
 }
+
 #chart-div{
   border-radius: .25em;
   height:100%;
@@ -137,7 +138,7 @@ gt-glucose-entry{
   margin-right: 2em;
 }
 .user-box label{
-  height: 2.5em;
+  color: #888;
   margin: .5em .5em 0 0;
   display:block;
 }
