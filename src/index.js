@@ -262,8 +262,8 @@ try {
     // if ( evt.target.id == 'year-selector' ) {
     //   return;
     // }
-    pageState.currentYear = document.getElementById( 'year-selector' ).value;
-    pageState.currentMonth = document.getElementById( 'month-selector' ).value;
+    pageState.currentYear = parseInt(document.getElementById( 'year-selector' ).value);
+    pageState.currentMonth = parseInt(document.getElementById( 'month-selector' ).value);
     loadMonth(
       pageState.user,
       pageState.currentYear,
