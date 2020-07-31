@@ -18,23 +18,18 @@ GoogleCharts.load( () => {
   renderRecentChart( store.items );
 } );
 
+let pageState = {
+  user: null,
+  currentYear: new Date().getFullYear(),
+  currentMonth : new Date().getMonth() + 1
+};
+
 let chartReady = false;
 let storeReady = false;
 let store = {
   items: []
 }
 
-loadThisMonth( "mschmeets@gmail.com" ).then( ( data ) => {
-  console.log( "loadThisMonth %o", data );
-  store = data;
-  storeReady = true;
-  update();
-} ).catch( ( error ) => {
-  console.error( error );
-  store = getStore();
-  storeReady = true;
-  update();
-} )
 
 function createItem( data ) {
   console.log( "Entering createItem: %o", data );
@@ -233,6 +228,8 @@ function renderRecentChart( items, selector = "#chart-div" ) {
 
 function update() {
   if ( storeReady ) {
+    console.log( "ENTERING update: %o", store );
+    document.getElementById( 'month-label' ).textContent = store.month + ", " + store.year;
     console.log( "update.storeReady %o", store.items );
     renderRecentMeasureList( store.items );
     renderRecentChart( store.items );
@@ -259,6 +256,36 @@ try {
     update();
   } );
 
+  window.addEventListener( "DOMContentLoaded", ( evt ) => { 
+    let main = document.querySelector( "main" );
+    main.appendChild(
+      document.getElementById( "initial-template" ).content.cloneNode( true )
+    );
+    let userField = main.querySelector( 'input' );
+    userField.addEventListener( "change", function(evt) {
+      const userID = evt.target.value;
+      pageState.user = userID;
+      main.innerHTML = "";
+      main.appendChild(
+        document.getElementById( "app-template" ).content.cloneNode( true )
+      )
+      main.querySelector( '#year-selector' ).value = pageState.currentYear;
+      main.querySelector( '#month-selector' ).value = pageState.currentMonth;
+      loadThisMonth( userID ).then( ( data ) => {
+        console.log( "loadThisMonth %o", data );
+        store = data;
+        storeReady = true;
+        update();
+      } ).catch( ( error ) => {
+        console.error( error );
+        store = getStore();
+        storeReady = true;
+        update();
+      } )
+      
+
+     })
+  })
   // update();
 } catch ( er ) {
   console.error( er );

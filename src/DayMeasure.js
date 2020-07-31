@@ -20,7 +20,7 @@ DayMeasureTemplate.innerHTML = `
       }
       .dmeasure .day{
         font-size: 1.0em;
-        width: 1.5em;
+        width: 1.25em;
         color:white;
         padding: .5em .5em;
         border-radius: 50%;

@@ -55,7 +55,7 @@ function transformFaunaDocument( item ) {
   return newItem
 }
 
-function transformFaunaResponse( response ) {
+function transformFaunaResponse( response, user, year, month ) {
   let fauna = response.data;
 
   let items = fauna.map(transformFaunaDocument);
@@ -65,7 +65,10 @@ function transformFaunaResponse( response ) {
 
   return {
     fauna: fauna,
-    items: items
+    items: items,
+    year: year,
+    month: month,
+    user: user
   };
 }
 
@@ -80,7 +83,7 @@ export const loadMonth = (user,year,month) => {
       return response.json()
     } ).then( ( data ) => { 
       console.log( "Returned from items-read-month: %o", data );
-      return transformFaunaResponse( data );
+      return transformFaunaResponse( data, user, year, month );
     } ).catch( ( error ) => {
       console.log( "loadMonth.catch %o", error );
      });

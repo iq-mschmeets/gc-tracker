@@ -120,6 +120,7 @@ section.recents h2{
 .row{
   display:flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 gt-glucose-entry{
   display:block;
@@ -127,12 +128,23 @@ gt-glucose-entry{
 }
 .user-box{
   margin-right: 5em;
+  display:flex;
+  align-items: flex-start;
 }
-.user-box input{
+.user-box select{
+  margin-right: 2em;
+}
+.user-box label{
+  height: 2.5em;
+  margin: .5em .5em 0 0;
+  display:block;
+}
+.user-box input,
+.user-box select{
   padding: .5em;
   border: 1px solid #dadada;
   min-width: 11em;
-  height: 1.5em;
+  height: 2.5em;
 }
 @media print {
   ul#recent-measure-list{  
