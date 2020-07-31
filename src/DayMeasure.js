@@ -64,6 +64,7 @@ DayMeasureTemplate.innerHTML = `
         font-size: .8em;
         color: #333;
         font-weight: 400;
+        padding-left: .4em;
       }
       .fa-trash{ color: rgba(243, 120, 32, 1); display:inline-block; margin:0 .5em;}
       button{ background-color:white;border:none;}

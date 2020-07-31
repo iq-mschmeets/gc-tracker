@@ -4,7 +4,8 @@ import {
   saveStore,
   loadThisMonth,
   filterInPlace,
-  getDBId
+  getDBId,
+  loadMonth
 } from "./store.js";
 import Measurement from "./Measurement.js";
 import GlucoseEntry from "./GlucoseEntry.js";
@@ -256,6 +257,28 @@ try {
     update();
   } );
 
+  function monthYearChange( evt ) {
+    evt.preventDefault;
+    // if ( evt.target.id == 'year-selector' ) {
+    //   return;
+    // }
+    pageState.currentYear = document.getElementById( 'year-selector' );
+    pageState.currentMonth = document.getElementById( 'month-selector' );
+    loadMonth(
+      pageState.user,
+      pageState.currentYear,
+      pageState.currentMonth
+    ).then( ( response ) => {
+      store = response;
+      update();
+    } ).catch( ( error ) => {
+      console.error( error );
+      store = getStore();
+      update();
+    } );
+
+  }
+
   window.addEventListener( "DOMContentLoaded", ( evt ) => { 
     let main = document.querySelector( "main" );
     main.appendChild(
@@ -268,7 +291,10 @@ try {
       main.innerHTML = "";
       main.appendChild(
         document.getElementById( "app-template" ).content.cloneNode( true )
-      )
+      );
+      main.querySelector( '#year-selector' ).addEventListener( 'change', monthYearChange );
+      main.querySelector( '#month-selector' ).addEventListener( 'change', monthYearChange );
+
       main.querySelector( '#year-selector' ).value = pageState.currentYear;
       main.querySelector( '#month-selector' ).value = pageState.currentMonth;
       loadThisMonth( userID ).then( ( data ) => {
