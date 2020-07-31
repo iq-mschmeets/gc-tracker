@@ -12,7 +12,10 @@ DayMeasureTemplate.innerHTML = `
     <style>
       .dmeasure{
         font-size: 1.2em;
+        display:flex;
+        justify-content-space-between;
       }
+      
       .dmeasure .dm-item{
         margin-left:30%;
         display:flex;
@@ -28,11 +31,13 @@ DayMeasureTemplate.innerHTML = `
         text-align:center;
       }
       .dmeasure h4{
-          margin: .5em 0 0 0;
+          margin: .25em 0 0 .25em;
+          flex-grow:1;
       }
       .dmeasure ul{
           padding: 0;
           margin: 0;
+          flex-grow:3;
       }
       .dm-value{
         font-weight: 500;
