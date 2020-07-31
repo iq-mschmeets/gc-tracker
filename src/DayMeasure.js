@@ -61,8 +61,9 @@ DayMeasureTemplate.innerHTML = `
         color: #0C8341;
       }
       .month{
-        font-size: 1em;
-        color: #777;
+        font-size: .8em;
+        color: #333;
+        font-weight: 400;
       }
       .fa-trash{ color: rgba(243, 120, 32, 1); display:inline-block; margin:0 .5em;}
       button{ background-color:white;border:none;}
