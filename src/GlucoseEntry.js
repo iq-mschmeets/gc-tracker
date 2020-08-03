@@ -4,7 +4,12 @@ const GlucoseEntryTemplate = document.createElement( "template" );
 GlucoseEntryTemplate.innerHTML = `
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <style>
-        input{ padding: .5em; border: 1px solid #dadada;min-width:11em;height:1.5em;}
+        input{ 
+            padding: .5em; 
+            border: 1px solid #dadada;
+            min-width:8em;
+            height:1.5em;
+        }
         label{ color: #888; display:block;}
         .hidden{ display:none; }
         button{
@@ -15,6 +20,7 @@ GlucoseEntryTemplate.innerHTML = `
             height:2.5em;
             display:block;
             margin: 1.2em auto;
+            width: 100%;
         }
         #multi-inputs{
             display:flex;

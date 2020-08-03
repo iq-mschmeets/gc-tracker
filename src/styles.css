@@ -8,14 +8,16 @@
 */
 
 
-
+html{
+  height:100%;
+}
 body {
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   font-weight:400;
   color: #555;
-  
+  height: 100%;
   margin:0 auto;
   background-color: #f0f0f0;
 }
@@ -34,22 +36,25 @@ header h1{
   font-size: 1.5em;
 }
 
+label {
+  display: block;
+}
+
 h1 i.fa-user-md{
   color: #FDE71A;
   font-size: 2.25em;
   display:inline-block;
   margin: .15em;
-  /* margin-bottom: .25em; */
-  
 }
 h1 span.title{
   font-size: 1.5em;
 }
 .container{
-  display:flex;
-  flex-direction: row;
+  
+  height: calc( 100% - 3.75rem );
 }
 
+/*
 .container nav{
   flex-basis: 12.5%;
   margin-top:1em;
@@ -57,22 +62,18 @@ h1 span.title{
   background-color: #808080;
   color:white;
   height: 100vh;
-
 }
+*/
 .container main{
   margin:1em;
   margin-top:2em;
-  width: 100%; 
-} 
+  width: calc( 100% - 2em );
+}
 nav h3{
   font-weight: 400;
 }
-
-label {
-  display: block;
-}
 .recents{
-  width:100%;
+  width: 100%;
 }
 .recent-parent {
   margin-top:2em;
@@ -92,12 +93,6 @@ label {
     width: 100%
   }
 }
-ul#recent-measure-list li {
-  list-style: none;
-  margin: .6em .4em;
-  border:1px solid #eaeaea;
-  border-radius: .25em;
-}
 
 ul#recent-measure-list {
   max-height: 60em;
@@ -107,6 +102,12 @@ ul#recent-measure-list {
   overflow-y: auto;
   padding:.5em;
   border: 1px solid #eaeaea;
+  border-radius: .25em;
+}
+ul#recent-measure-list li {
+  list-style: none;
+  margin: .6em .4em;
+  border:1px solid #eaeaea;
   border-radius: .25em;
 }
 
@@ -142,6 +143,12 @@ gt-glucose-entry{
 fieldset{
   position:relative;
   padding-top:1.25em;
+  border-color: #f4f4f4;
+  border-width:1px;
+  border-left:none;
+  border-bottom:none;
+  border-right:none;
+  margin-top:1em;
 }
 @media only screen and (max-width:900px){
   .row{
@@ -176,11 +183,11 @@ fieldset{
   height: 2.5em;
 }
 @media print {
-  ul#recent-measure-list{  
-    width: 30em; 
+  ul#recent-measure-list{
+    width: 30em;
     max-height:  80vh;
   }
-  
+
 }
 
 
