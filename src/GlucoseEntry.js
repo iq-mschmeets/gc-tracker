@@ -22,10 +22,28 @@ GlucoseEntryTemplate.innerHTML = `
         }
         .bar{
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             grid-template-rows: 1fr;
-            grid-column-gap: 13px;
+            grid-column-gap: 12px;
             grid-row-gap: 0px;
+        }
+        @media only screen and (max-width:900px){
+            .bar{
+                display:flex;
+                flex-direction:column;
+                justify-content:flex-start;
+            }
+            .bar input{
+                display:block;
+                width: 100%;
+                width: -webkit-fill-available;
+                margin: 0 auto .5em auto;
+            }
+            .bar button{
+                display:block;
+                width: 100%;
+                margin: 0 auto .5em auto;
+            }
         }
 
         elix-date-combo-box{min-width:10em;height:20px;}

@@ -1,7 +1,7 @@
 const DayMeasureItemTemplate = document.createElement( "template" );
 DayMeasureItemTemplate.innerHTML = `
 <li class="dm-item">
-    <button id="delete"><i class="fas fa-trash"></i></button>
+    <button id="delete" title="Click to delete this measure"><i class="fas fa-trash"></i></button>
     <span class="dm-time"></span>
     <span class="dm-value"></span>
 </li>
@@ -15,7 +15,7 @@ DayMeasureTemplate.innerHTML = `
         display:flex;
         justify-content-space-between;
       }
-      
+
       .dmeasure .dm-item{
         margin-left:10%;
         display:flex;
@@ -168,22 +168,24 @@ class DayMeasure extends HTMLElement {
     onDelete( evt ) {
         evt.preventDefault();
         console.log( "%s.onDelete", this.tagName );
-        this.dispatchEvent( new CustomEvent( "delete-item", {
-            bubbles: true,
-            detail: {
-                type: 'delete-item',
-                payload: {
-                    value: this.value,
-                    date: this.date,
-                    id: this.measureId || this.getAttribute( 'data-id' )
+        if ( confirm( "Are you sure you want to delete this measurement?" ) ) {
+            this.dispatchEvent( new CustomEvent( "delete-item", {
+                bubbles: true,
+                detail: {
+                    type: 'delete-item',
+                    payload: {
+                        value: this.value,
+                        date: this.date,
+                        id: this.measureId || this.getAttribute( 'data-id' )
+                    }
                 }
-            }
-        } ) );
+            } ) );
+        }
     }
 
     renderItems() {
         const listEl = this.shadowRoot.querySelector( 'ul' );
-        this._measureItems.forEach( ( item ) => { 
+        this._measureItems.forEach( ( item ) => {
             var node = getNewTemplate( DayMeasureItemTemplate );
 
             node.querySelector( '.dm-time' ).textContent = getTimeAsText( item.date );
@@ -197,12 +199,12 @@ class DayMeasure extends HTMLElement {
             }
             listEl.appendChild( node );
         } )
-        
+
 
     }
     render() {
         if ( this._isAttached ) {
-            
+
             this.shadowRoot.querySelector( ".day" ).textContent = this.day;
             this.shadowRoot.querySelector( ".month" ).textContent =  getMonth( this.month - 1 );
             this.renderItems();

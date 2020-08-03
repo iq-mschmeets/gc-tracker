@@ -15,6 +15,8 @@ body {
   font-size: 13px;
   font-weight:400;
   color: #555;
+  
+  margin:0 auto;
   background-color: #f0f0f0;
 }
 header{
@@ -23,28 +25,31 @@ header{
   box-shadow: 0 1px 1px rgba(0,0,0,.15);
   color:white;
   margin:-1em;
-  padding: .5em 2em;
+  padding: .5em 1em;
 }
 header h1{
   margin:0.25em 0;
-  font-family:Bebas Neue;
-  font-family: 'Pragati Narrow';
-  font-size: 2.5em;
+  font-family:Helvetica;
+  /* font-family: 'Pragati Narrow'; */
+  font-size: 1.5em;
 }
 
 h1 i.fa-user-md{
   color: #FDE71A;
-  font-size: 1.5em;
+  font-size: 2.25em;
   display:inline-block;
-  margin-right: .25em;
-  margin-bottom: .25em;
+  margin: .15em;
+  /* margin-bottom: .25em; */
   
+}
+h1 span.title{
+  font-size: 1.5em;
 }
 .container{
   display:flex;
   flex-direction: row;
-  margin-left: -1em;
 }
+
 .container nav{
   flex-basis: 12.5%;
   margin-top:1em;
@@ -55,33 +60,38 @@ h1 i.fa-user-md{
 
 }
 .container main{
-  padding: 1em;
-}
-nav h3{
-  font-weight: 400;
-
-}
-main{
   margin:1em;
   margin-top:2em;
-  width: 100%;
+  width: 100%; 
+} 
+nav h3{
+  font-weight: 400;
 }
+
 label {
   display: block;
 }
 .recents{
   width:100%;
-  /* height:60vh; */
-
 }
 .recent-parent {
+  margin-top:2em;
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr;
-  grid-column-gap: 1em;
-  padding: .125em .5em;
+  column-gap: 1em;
+  row-gap: 0;
   height: 100%;
+}
+@media only screen and (max-width:900px){
+  .recent-parent{
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr;
+    column-gap: 0;
+    row-gap: 2em;;
+    width: 100%
   }
+}
 ul#recent-measure-list li {
   list-style: none;
   margin: .6em .4em;
@@ -128,6 +138,22 @@ section.recents h2{
 gt-glucose-entry{
   display:block;
   min-width: 500px;
+}
+fieldset{
+  position:relative;
+  padding-top:1.25em;
+}
+@media only screen and (max-width:900px){
+  .row{
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  fieldset{
+    margin-top: 2.5em;
+    width: calc( 100% - 2em );
+  }
+  gt-glucose-entry{
+  }
 }
 .user-box{
   margin-right: 5em;

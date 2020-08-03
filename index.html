@@ -3,6 +3,9 @@
   <head>
     <title>My Stats</title>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://kit.fontawesome.com/7332029ba5.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pragati+Narrow&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -11,7 +14,7 @@
 
   <body>
     <header class="csb-5">
-      <h1> <i class="fa fa-user-md" aria-hidden="true"></i>  My Stats</h1>
+      <h1> <i class="fa fa-user-md" aria-hidden="true"></i><span class="title"> My Stats</span> </h1>
     </header>
 
     <div class="container">
@@ -52,11 +55,13 @@
           </select>
         </div>
       </div>
+      <fieldset>
+        <label style="position:absolute;top:-.7em;background-color:#f2f2f2;">Add a Measurement</label>
         <gt-glucose-entry></gt-glucose-entry>
+      </fieldset>
       </div>
 
       <section class="recents">
-        <h2 id="month-label"></h2>
         <div class="recent-parent">
           <ul id="recent-measure-list"></ul>
           <div id="chart-div" style="width:100%;"></div>
