@@ -157,7 +157,7 @@ fieldset{
   }
   fieldset{
     margin-top: 2.5em;
-    width: calc( 100% - 2em );
+    width: calc( 100% - 4em );
   }
   gt-glucose-entry{
   }
