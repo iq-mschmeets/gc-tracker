@@ -23,7 +23,7 @@ body {
 }
 header{
  /* background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(16,16,96,0.7189) 100%, rgba(0,212,255,1) 100%);*/
-  max-height: 3.75rem;
+  max-height: 4.0rem;
   box-shadow: 0 1px 1px rgba(0,0,0,.15);
   color:white;
   margin:-1em;
@@ -32,7 +32,7 @@ header{
 header h1{
   margin:0.25em 0;
   font-family:Helvetica;
-  /* font-family: 'Pragati Narrow'; */
+  padding: .25em;
   font-size: 1.5em;
 }
 
@@ -50,8 +50,7 @@ h1 span.title{
   font-size: 1.5em;
 }
 .container{
-  
-  height: calc( 100% - 3.75rem );
+  height: calc( 100% - 4.0rem );
 }
 
 /*
@@ -157,9 +156,11 @@ fieldset{
   }
   fieldset{
     margin-top: 2.5em;
-    width: calc( 100% - 4em );
+    width: calc( 100% - 2em );
   }
   gt-glucose-entry{
+    width: 100%;
+    max-width:100%;
   }
 }
 .user-box{

@@ -293,6 +293,7 @@ try {
       main.appendChild(
         document.getElementById( "app-template" ).content.cloneNode( true )
       );
+      
       main.querySelector( '#year-selector' ).addEventListener( 'change', monthYearChange );
       main.querySelector( '#month-selector' ).addEventListener( 'change', monthYearChange );
 

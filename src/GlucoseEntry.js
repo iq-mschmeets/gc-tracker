@@ -48,7 +48,7 @@ GlucoseEntryTemplate.innerHTML = `
             .bar button{
                 display:block;
                 width: 100%;
-                margin: 0 auto .5em auto;
+                margin: 1em auto .5em auto;
             }
         }
 
