@@ -218,7 +218,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     const options = {
       chartArea: {
         width: '80%',
-        height: '80%'
+        height: '78%'
       },
       axisTitlePosition: "out",
       dataOpacity : .67,
@@ -235,7 +235,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
         maxValue: 210
       },
       legend: {
-        position: 'bottom'
+        position: 'none'
       },
       // colors: [ '#BEE3FD' ],
       colors: ['#2e4fa1'],
