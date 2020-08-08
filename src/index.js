@@ -217,9 +217,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     console.log( "Chart grid count %s", gridCount );
     const options = {
       chartArea: {
-        width: '97%',
-        height: '97%'
+        width: '80%',
+        height: '80%'
       },
+      axisTitlePosition: "out",
       dataOpacity : .67,
       hAxis: {
         title: 'Day of the Month',
