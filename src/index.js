@@ -224,9 +224,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
       legend: {
         position: 'bottom'
       },
-      colors: [ '#BEE3FD' ],
+      // colors: [ '#BEE3FD' ],
+      colors: ['#2e4fa1'],
       title: "Blood Sugar",
-      pointSize: 7,
+      pointSize: 10,
       trendlines: {
         0: {}
       }
