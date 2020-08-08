@@ -3,6 +3,7 @@ DayMeasureItemTemplate.innerHTML = `
 <li class="dm-item">
     <button id="delete" title="Click to delete this measure"><i class="fas fa-trash"></i></button>
     <span class="dm-time"></span>
+    <span class="dm-type"></span>
     <span class="dm-value"></span>
 </li>
 `
@@ -183,6 +184,28 @@ class DayMeasure extends HTMLElement {
         }
     }
 
+    renderItem( item ){
+        if( item.type == "Blood Pressure" ){
+
+        } else {
+            var node = getNewTemplate( DayMeasureItemTemplate );
+
+            node.querySelector( '.dm-time' ).textContent = getTimeAsText( item.date );
+            node.querySelector( '.dm-type' ).textContent = item.type;
+
+            const valEl = node.querySelector( '.dm-value' );
+            valEl.textContent = item.value; // ?item.value[0]?
+            if ( item.type == "Glucose" && item.value > this._highValue ) {
+                valEl.classList.add( "high" );
+                valEl.classList.remove( "normal" );
+            } else {
+                valEl.classList.add( "normal" );
+            }
+
+        }
+    }
+
+
     renderItems() {
         const listEl = this.shadowRoot.querySelector( 'ul' );
         this._measureItems.forEach( ( item ) => {
@@ -190,6 +213,7 @@ class DayMeasure extends HTMLElement {
 
             node.querySelector( '.dm-time' ).textContent = getTimeAsText( item.date );
             const valEl = node.querySelector( '.dm-value' );
+            console.log("renderItems %o", item);
             valEl.textContent = item.value; // ?item.value[0]?
             if ( item.value > this._highValue ) {
                 valEl.classList.add( "high" );

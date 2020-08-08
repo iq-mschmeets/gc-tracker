@@ -71,11 +71,11 @@ GlucoseEntryTemplate.innerHTML = `
             <option>Temperature</option>
         </datalist>
         <div>
-            <label for="measare-type">Type</label>
+            <label for="measare-type">Type: </label>
             <input type="text" id="measure-type" list="measure-type-list" />
         </div>
          <div class="single-input">
-            <label for="single-value-input">Enter value</label>
+            <label for="single-value-input">Value: </label>
             <input type="number" id="single-value-input" placeholder="" />
         </div>
         <div class="multi-inputs hidden" >

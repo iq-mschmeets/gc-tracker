@@ -119,7 +119,6 @@ function downloadData() {
   dlAnchorElem.click();
   console.log( "leaving downLoadData" );
 }
-//jkdfsjk  df
 
 function renderRecentMeasureList( items, selector = "recent-measure-list" ) {
   const list = document.getElementById( selector );
@@ -139,26 +138,17 @@ function renderRecentMeasureList( items, selector = "recent-measure-list" ) {
   Object.keys( dayCollection ).forEach( ( key ) => {
     const li = document.createElement( "li" );
     const item = dayCollection[ key ];
+
     const dtMeasure = new DayMeasure();
     dtMeasure.setAttribute( "month", item[0].month );
     dtMeasure.setAttribute( "day", item[0].day );
     dtMeasure.measurements = item;
+
     li.append( dtMeasure );
     list.appendChild( li );
 
    })
 
-  // items.forEach( item => {
-  //   var li = document.createElement( "li" );
-  //   list.appendChild( li );
-
-  //   let measure = new Measurement();
-  //   let dstr = item.date.toLocaleString( "en-US" );
-  //   measure.setAttribute( "date", dstr );
-  //   measure.setAttribute( "value", item.value );
-  //   measure.setAttribute( "data-id", item.id );
-  //   li.append( measure );
-  // } );
 
   if ( items.length > 0 ) {
     let total = items.reduce( ( accum, item ) => {
@@ -177,7 +167,7 @@ function renderRecentMeasureList( items, selector = "recent-measure-list" ) {
       h3 = document.querySelector( "section.recents h3" );
     }
 
-    h3.querySelector( "span:first-of-type" ).textContent = "Average of Recent Measures: " + avg.toFixed( 0 );
+    h3.querySelector( "span:first-of-type" ).textContent = "Average of "+items.length+" Measures: " + avg.toFixed( 0 );
     h3.querySelector( "span:last-of-type" ).textContent = "  Estimated A1c: " + a1c.toFixed( 1 );
 
   }
@@ -299,6 +289,7 @@ try {
 
       main.querySelector( '#year-selector' ).value = pageState.currentYear;
       main.querySelector( '#month-selector' ).value = pageState.currentMonth;
+
       loadThisMonth( userID ).then( ( data ) => {
         console.log( "loadThisMonth %o", data );
         store = data;
