@@ -187,25 +187,45 @@ function renderRecentChart( items, selector = "#chart-div" ) {
    console.log( "Chart data ", rows.slice() );
   try {
     let data = GoogleCharts.api.visualization.arrayToDataTable( rows );
+    // const options = {
+    //   hAxis: {
+    //     title: 'Day',
+    //     logScale: false
+    //   },
+    //   vAxis: {
+    //     title: 'mg/dl',
+    //     logScale: false,
+    //     viewWindow: {
+    //       min: 65,
+    //       max: 200,
+    //     },
+    //     viewWindowMode: 'explicit'
+    //   },
+    //   legend: {
+    //     position: 'bottom'
+    //   },
+    //   colors: [ '#BEE3FD' ],
+    //   title: "Recent",
+    //   pointSize: 7,
+    //   trendlines: {
+    //     0: {}
+    //   }
+    // };
+    
     const options = {
       hAxis: {
-        title: 'Date',
-        logScale: false
+        title: 'Day',
       },
       vAxis: {
         title: 'mg/dl',
-        logScale: false,
-        viewWindow: {
-          min: 65,
-          max: 200,
-        },
-        viewWindowMode: 'explicit'
+        minValue: 65,
+        maxValue: 210
       },
       legend: {
         position: 'bottom'
       },
       colors: [ '#BEE3FD' ],
-      title: "Recent",
+      title: "Blood Sugar",
       pointSize: 7,
       trendlines: {
         0: {}
