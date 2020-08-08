@@ -53,6 +53,12 @@ DayMeasureTemplate.innerHTML = `
         line-height: 1.6em;
         align-self:center;
       }
+      .dm-type{
+        font-size: 1em;
+        font-style:italic;
+        font-weight: 400;
+        color: #aaa;
+      } 
       .high{
         color: rgba(202, 32, 39, 1);
         font-weight:600;
