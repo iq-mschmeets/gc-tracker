@@ -217,11 +217,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     console.log( "Chart grid count %s", gridCount );
     const options = {
       chartArea: {
-        width: '100%',
-        height: '100%'
+        width: '97%',
+        height: '97%'
       },
-      theme : 'maximized',
-      dataOpacity : .8,
+      dataOpacity : .67,
       hAxis: {
         title: 'Day of the Month',
         gridlines: {
@@ -246,9 +245,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
           color: '#6283e5'
         }
       },
-      vAxis: {
-        viewWindowMode : 'maximized'
-      }
+
     };
 
     // CandlestickChart  data structure array with Date, low, avg, avg, high, so bucket by day and compute values.
