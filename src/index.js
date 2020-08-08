@@ -178,6 +178,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
   if ( !items || items.length == 0 ) {
     return;
   }
+  items = items.filter( item => item.type === "Glucose" );
   let rows = items.map( item => [ item.day + '/' + item.month, parseInt( item.value ) ] );
   rows.unshift( [ 'Date', 'Glucose' ] );
   // console.log( "Chart data ", rows.slice() );
