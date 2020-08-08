@@ -117,7 +117,17 @@ class GlucoseEntry extends HTMLElement{
         console.log( "GlucoseEntry.onClick %o, %o", evt, this.shadowRoot.querySelector( 'input' ) );
 
         const typeInput = this.shadowRoot.querySelector( "input#measure-type" );
-        const input = this.shadowRoot.querySelector( 'input#single-value-input' );
+        const value = [];
+
+        if ( typeInput.value == "Blood Pressure" ) {
+            const container = this.shadowRoot.querySelector( '.multi-inputs' );
+            value[ 0 ] = container.querySelector( '#systolic-input' ).value;
+            value[ 1 ] = container.querySelector( '#diastolic-input' ).value;
+            value[ 2 ] = container.querySelector( '#pulse-input' ).value;
+        } else {
+            value[ 0 ] = this.shadowRoot.querySelector( 'input#single-value-input' ).value;
+        }
+
         const dateBox = this.shadowRoot.querySelector( 'input#date' );
         const timeBox = this.shadowRoot.querySelector( 'input#time' );
         console.log( "GlucoseEntery date %s, time %s", dateBox.value, timeBox.value );
@@ -126,7 +136,7 @@ class GlucoseEntry extends HTMLElement{
                 detail: {
                     type: 'new-item',
                     payload: {
-                        value: input.value,
+                        value: value,
                         date: new Date( Date.parse( dateBox.value + " " + timeBox.value ) ),
                         type : typeInput.value
                     }
