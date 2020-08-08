@@ -215,6 +215,9 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     const options = {
       hAxis: {
         title: 'Day',
+        gridlines: {
+          count : 31
+        }
       },
       vAxis: {
         title: 'mg/dl',
@@ -229,7 +232,9 @@ function renderRecentChart( items, selector = "#chart-div" ) {
       title: "Blood Sugar",
       pointSize: 10,
       trendlines: {
-        0: {}
+        0: {
+          color: '#4263b5'
+        }
       }
     };
 
