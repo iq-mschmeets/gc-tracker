@@ -217,7 +217,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     console.log( "Chart grid count %s", gridCount );
     const options = {
       chartArea: {
-        width: '80%',
+        width: '84%',
         height: '78%'
       },
       axisTitlePosition: "out",
@@ -231,8 +231,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
       },
       vAxis: {
         title: 'mg/dl',
-        minValue: 65,
-        maxValue: 210
+        viewWindow: {
+          min: 60,
+          max: 220,          
+        }
       },
       legend: {
         position: 'none'
