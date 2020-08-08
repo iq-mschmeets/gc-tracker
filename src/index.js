@@ -14,7 +14,9 @@ import {
 } from 'google-charts';
 import DayMeasure from "./DayMeasure";
 
+// GoogleCharts.load('current', {'packages':['corechart']});
 GoogleCharts.load( () => {
+// GoogleCharts.setOnLoadCallback(()=>{
   chartReady = true;
   renderRecentChart( store.items );
 } );
@@ -179,9 +181,10 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     return;
   }
   items = items.filter( item => item.type === "Glucose" );
-  let rows = items.map( item => [ item.day + '/' + item.month, parseInt( item.value ) ] );
-  rows.unshift( [ 'Date', 'Glucose' ] );
-  // console.log( "Chart data ", rows.slice() );
+  // let rows = items.map( item => [ item.day + '/' + item.month, parseInt( item.value[0] ) ] );
+  let rows = items.map( item => [ item.day, parseInt( item.value[0] ) ] );
+  rows.unshift( [ 'Day', 'Glucose' ] );
+   console.log( "Chart data ", rows.slice() );
   try {
     let data = GoogleCharts.api.visualization.arrayToDataTable( rows );
     const options = {
@@ -211,7 +214,8 @@ function renderRecentChart( items, selector = "#chart-div" ) {
 
     // CandlestickChart  data structure array with Date, low, avg, avg, high, so bucket by day and compute values.
 
-    let chart = new GoogleCharts.api.visualization.LineChart( document.querySelector( selector ) );
+    // let chart = new GoogleCharts.api.visualization.LineChart( document.querySelector( selector ) );
+    let chart = new GoogleCharts.api.visualization.ScatterChart( document.querySelector( selector ) );
     chart.draw( data, options );
   } catch ( er ) {
     console.error( er );
