@@ -185,45 +185,34 @@ class DayMeasure extends HTMLElement {
     }
 
     renderItem( item ){
+        var node = getNewTemplate( DayMeasureItemTemplate );
+
+        node.querySelector( '.dm-time' ).textContent = getTimeAsText( item.date );
+        node.querySelector( '.dm-type' ).textContent = item.type;
+
+        const valEl = node.querySelector( '.dm-value' );
+
         if( item.type == "Blood Pressure" ){
-
+            valEl.textContent = item.value[0] + " / " +item.value[1];
         } else {
-            var node = getNewTemplate( DayMeasureItemTemplate );
-
-            node.querySelector( '.dm-time' ).textContent = getTimeAsText( item.date );
-            node.querySelector( '.dm-type' ).textContent = item.type;
-
-            const valEl = node.querySelector( '.dm-value' );
-            valEl.textContent = item.value; // ?item.value[0]?
-            if ( item.type == "Glucose" && item.value > this._highValue ) {
-                valEl.classList.add( "high" );
-                valEl.classList.remove( "normal" );
-            } else {
-                valEl.classList.add( "normal" );
-            }
-
+            valEl.textContent = item.value[0];
         }
+        if ( item.type == "Glucose" && item.value[0] > this._highValue ) {
+            valEl.classList.add( "high" );
+            valEl.classList.remove( "normal" );
+        } else {
+            valEl.classList.add( "normal" );
+        }
+
+        return node;
     }
 
 
     renderItems() {
         const listEl = this.shadowRoot.querySelector( 'ul' );
         this._measureItems.forEach( ( item ) => {
-            var node = getNewTemplate( DayMeasureItemTemplate );
-
-            node.querySelector( '.dm-time' ).textContent = getTimeAsText( item.date );
-            const valEl = node.querySelector( '.dm-value' );
-            console.log("renderItems %o", item);
-            valEl.textContent = item.value; // ?item.value[0]?
-            if ( item.value > this._highValue ) {
-                valEl.classList.add( "high" );
-                valEl.classList.remove( "normal" );
-            } else {
-                valEl.classList.add( "normal" );
-            }
-            listEl.appendChild( node );
-        } )
-
+            listEl.appendChild( this.renderItem( item ) );
+        } );
 
     }
     render() {
