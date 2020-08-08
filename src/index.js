@@ -211,10 +211,11 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     //     0: {}
     //   }
     // };
-    let gridCount = items.lenth > 0 ? ( items.length < 5 ? 10 : items.length ) : 1;
+    let gridCount = items.length > 0 ? ( items.length < 5 ? 5 : items.length ) : 1;
     if ( gridCount > 31 ) { gridCount == 31; }
     console.log( "Chart grid count %s", gridCount );
     const options = {
+      dataOpacity : .8,
       hAxis: {
         title: 'Day of the Month',
         gridlines: {
