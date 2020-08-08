@@ -215,6 +215,8 @@ class DayMeasure extends HTMLElement {
         if ( item.type == "Glucose" && item.value[0] > this._highValue ) {
             valEl.classList.add( "high" );
             valEl.classList.remove( "normal" );
+        } else if ( item.type == "Glucose" ) {
+            valEl.classList.add( "normal" );
         }
         // else {
         //     valEl.classList.add( "normal" );
