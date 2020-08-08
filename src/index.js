@@ -211,12 +211,12 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     //     0: {}
     //   }
     // };
-    
+    let gridCount = items.lenth > 0 ? ( items.length < 5 ? 10 : items.length ) : 1;
     const options = {
       hAxis: {
         title: 'Day',
         gridlines: {
-          count : 31
+          count : gridCount
         }
       },
       vAxis: {
