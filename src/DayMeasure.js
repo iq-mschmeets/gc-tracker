@@ -47,6 +47,9 @@ DayMeasureTemplate.innerHTML = `
         text-align:right;
         padding-right: 1em;
       }
+      .bp{
+          font-size: 1em;
+      }
       .dm-time{
         flex-basis: 70%;
         font-weight: 400;
@@ -201,7 +204,8 @@ class DayMeasure extends HTMLElement {
         const valEl = node.querySelector( '.dm-value' );
 
         if( item.type == "Blood Pressure" ){
-            valEl.textContent = item.value[0] + " / " +item.value[1];
+            valEl.textContent = item.value[ 0 ] + " / " + item.value[ 1 ];
+            valEl.classList.add("bp")
         } else {
             valEl.textContent = item.value[0];
         }
