@@ -212,11 +212,14 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     //   }
     // };
     let gridCount = items.lenth > 0 ? ( items.length < 5 ? 10 : items.length ) : 1;
+    if ( gridCount > 31 ) { gridCount == 31; }
+    console.log( "Chart grid count %s", gridCount );
     const options = {
       hAxis: {
-        title: 'Day',
+        title: 'Day of the Month',
         gridlines: {
-          count : gridCount
+          count: gridCount,
+          color: '#dadada'
         }
       },
       vAxis: {
@@ -233,7 +236,7 @@ function renderRecentChart( items, selector = "#chart-div" ) {
       pointSize: 10,
       trendlines: {
         0: {
-          color: '#4263b5'
+          color: '#6283e5'
         }
       }
     };
