@@ -51,6 +51,7 @@ DayMeasureTemplate.innerHTML = `
           font-size: 1em;
           color: #444;
           font-weight: 400;
+          padding-top: .4em;
       }
       .dm-time{
         flex-basis: 70%;
@@ -214,9 +215,10 @@ class DayMeasure extends HTMLElement {
         if ( item.type == "Glucose" && item.value[0] > this._highValue ) {
             valEl.classList.add( "high" );
             valEl.classList.remove( "normal" );
-        } else {
-            valEl.classList.add( "normal" );
         }
+        // else {
+        //     valEl.classList.add( "normal" );
+        // }
 
         return node;
     }
