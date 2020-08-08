@@ -153,8 +153,9 @@ function renderRecentMeasureList( items, selector = "recent-measure-list" ) {
 
 
   if ( items.length > 0 ) {
-    let total = items.reduce( ( accum, item ) => {
-      return accum + Number( item.value );
+    let total = items.filter( i => i.type === "Glucose" )
+                    .reduce( ( accum, item ) => {
+        return accum + Number( item.value[0] );
     }, 0 );
 
     let avg = total / items.length;
@@ -215,6 +216,11 @@ function renderRecentChart( items, selector = "#chart-div" ) {
     if ( gridCount > 31 ) { gridCount == 31; }
     console.log( "Chart grid count %s", gridCount );
     const options = {
+      chartArea: {
+        width: '100%',
+        height: '100%'
+      },
+      theme : 'maximized',
       dataOpacity : .8,
       hAxis: {
         title: 'Day of the Month',
@@ -239,6 +245,9 @@ function renderRecentChart( items, selector = "#chart-div" ) {
         0: {
           color: '#6283e5'
         }
+      },
+      vAxis: {
+        viewWindowMode : 'maximized'
       }
     };
 
