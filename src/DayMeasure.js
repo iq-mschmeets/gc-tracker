@@ -1,7 +1,9 @@
 const DayMeasureItemTemplate = document.createElement( "template" );
 DayMeasureItemTemplate.innerHTML = `
 <li class="dm-item">
-    <button id="delete" title="Click to delete this measure"><i class="fas fa-trash"></i></button>
+    <button class="dm-item-delete" title="Click to delete this measure">
+        <i class="fas fa-trash"></i>
+    </button>
     <span class="dm-time"></span>
     <span class="dm-type"></span>
     <span class="dm-value"></span>
@@ -28,7 +30,7 @@ DayMeasureTemplate.innerHTML = `
         color:white;
         padding: .5em .5em;
         border-radius: 50%;
-        background-color:rgba(56, 88, 191, 1);
+        background-color:rgba(56, 95, 225, 0.8);
         text-align:center;
       }
       .dmeasure h4{
@@ -166,10 +168,14 @@ class DayMeasure extends HTMLElement {
     }
 
     addNormalButtons() {
-        // this.shadowRoot.querySelector( '#delete' ).addEventListener( "click", this.onDelete );
+        // let list = this.shadowRoot.querySelector('ul');
+        // list.addEventListener('click', this.onDelete);
+        // this.shadowRoot.querySelector( '.dm-item-delete' ).addEventListener( "click", this.onDelete );
     }
 
-     removeNormalButtons() {
+    removeNormalButtons() {
+        // let list = this.shadowRoot.querySelector('ul');
+        // list.removeEventListener('click', this.onDelete);
         // this.shadowRoot.getElementById( 'delete' ).removeEventListener( "click", this.onDelete );
     }
 
@@ -182,6 +188,10 @@ class DayMeasure extends HTMLElement {
 
     onDelete( evt ) {
         evt.preventDefault();
+        // find source, looking for the button, but, how do we identify the exact
+        // item that button represents? Use the data-id attribute as set in renderItem
+        // then we need to look up that item in the day's collection.
+        // this._measureItems.filter((item)=>item.id == btnID);
         console.log( "%s.onDelete", this.tagName );
         if ( confirm( "Are you sure you want to delete this measurement?" ) ) {
             this.dispatchEvent( new CustomEvent( "delete-item", {
@@ -205,6 +215,8 @@ class DayMeasure extends HTMLElement {
         node.querySelector( '.dm-type' ).textContent = item.type;
 
         const valEl = node.querySelector( '.dm-value' );
+
+        node.querySelector( 'button.dm-item-delete' ).setAttribute( "data-id", item.id );
 
         if( item.type == "Blood Pressure" ){
             valEl.textContent = item.value[ 0 ] + "/" + item.value[ 1 ];

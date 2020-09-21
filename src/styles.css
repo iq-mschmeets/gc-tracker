@@ -113,6 +113,7 @@ ul#recent-measure-list li {
 #chart-div{
   border-radius: .25em;
   height:100%;
+  min-height: 500px;
 }
 section.recents h3 span{
   padding: 0 1em;

@@ -153,12 +153,12 @@ function renderRecentMeasureList( items, selector = "recent-measure-list" ) {
 
 
   if ( items.length > 0 ) {
-    let total = items.filter( i => i.type === "Glucose" )
-                    .reduce( ( accum, item ) => {
+    let glucoseItems = items.filter( i => i.type === "Glucose" );
+    let total = glucoseItems.reduce( ( accum, item ) => {
         return accum + Number( item.value[0] );
     }, 0 );
 
-    let avg = total / items.length;
+    let avg = total / glucoseItems.length;
     let a1c = ( avg + 46.7 ) / 28.7;
     let h3 = null;
     if ( !document.querySelector( "section.recents h3" ) ) {
