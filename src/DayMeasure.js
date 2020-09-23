@@ -169,16 +169,17 @@ class DayMeasure extends HTMLElement {
     }
 
     addNormalButtons() {
-        let list = this.shadowRoot.querySelector('ul');
-        list.addEventListener( 'click', this.onDelete );
-        this.shadowRoot.addEventListener( 'click', ( evt ) => { })
-        this.shadowRoot.querySelector( '.dm-item-delete' ).addEventListener( "click", this.onDelete );
+        //let list = this.shadowRoot.querySelector('ul');
+        //list.addEventListener( 'click', this.onDelete );
+        this.shadowRoot.addEventListener( 'click', this.clickCheck );
+        //this.shadowRoot.querySelector( '.dm-item-delete' ).addEventListener( "click", this.onDelete );
     }
 
     removeNormalButtons() {
-        let list = this.shadowRoot.querySelector('ul');
-        list.removeEventListener('click', this.onDelete);
-        this.shadowRoot.getElementById( 'delete' ).removeEventListener( "click", this.onDelete );
+        //let list = this.shadowRoot.querySelector('ul');
+        //list.removeEventListener('click', this.onDelete);
+        //this.shadowRoot.getElementById( 'delete' ).removeEventListener( "click", this.onDelete );
+        this.shadowRoot.removeEventListener( 'click', this.clickCheck );
     }
 
 
