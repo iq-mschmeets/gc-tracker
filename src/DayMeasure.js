@@ -123,6 +123,7 @@ class DayMeasure extends HTMLElement {
         } );
         setTemplateInShadow( this ); //this.shadowRoot.appendChild( MeasurementTemplate.content.cloneNode( true ) );
         this.onDelete = this.onDelete.bind( this );
+        this.clickCheck = this.clickCheck.bind( this );
     }
 
     static get observedAttributes() {
@@ -169,7 +170,8 @@ class DayMeasure extends HTMLElement {
 
     addNormalButtons() {
         let list = this.shadowRoot.querySelector('ul');
-        list.addEventListener('click', this.onDelete);
+        list.addEventListener( 'click', this.onDelete );
+        this.shadowRoot.addEventListener( 'click', ( evt ) => { })
         this.shadowRoot.querySelector( '.dm-item-delete' ).addEventListener( "click", this.onDelete );
     }
 
@@ -186,6 +188,15 @@ class DayMeasure extends HTMLElement {
 
     }
 
+    clickCheck( evt ) {
+        console.log( "%s.clickCheck %o", this.tagName, evt );
+        if ( evt.target.matches( ".dm-item-delete" ) || evt.target.matches( "fas fa-trash" ) ) {
+            let li = evt.target.closest( 'li.dm-item' );
+            this.onDelete( { id: li.getAttribute( 'data-id' ) } );
+
+        }
+
+    }
     onDelete( evt ) {
         evt.preventDefault();
         // find source, looking for the button, but, how do we identify the exact
@@ -199,9 +210,10 @@ class DayMeasure extends HTMLElement {
                 detail: {
                     type: 'delete-item',
                     payload: {
-                        value: this.value,
-                        date: this.date,
-                        id: this.measureId || this.getAttribute( 'data-id' )
+//                        value: this.value,
+//                        date: this.date,
+//                        id: this.measureId || this.getAttribute( 'data-id' )
+                        id : evt.id
                     }
                 }
             } ) );
@@ -230,6 +242,8 @@ class DayMeasure extends HTMLElement {
         } else if ( item.type == "Glucose" ) {
             valEl.classList.add( "normal" );
         }
+
+        node.setAttribute( 'data-id', item.id );
         // else {
         //     valEl.classList.add( "normal" );
         // }
