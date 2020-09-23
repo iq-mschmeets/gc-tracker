@@ -198,8 +198,7 @@ class DayMeasure extends HTMLElement {
         }
 
         let temp = evt.path.filter( ( nd ) => {
-            console.log( "path.filter %o", nd );
-            return nd.matches( 'li.dm-item' )
+            return ( nd.matches && nd.matches( 'li.dm-item' ) );
         } );
         if ( temp.length == 1 ) {
             console.log( "%s.clickCheck found gt-day-measure in path %o", this.tagName, temp );
