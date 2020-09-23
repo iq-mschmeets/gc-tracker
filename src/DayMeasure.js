@@ -244,7 +244,7 @@ class DayMeasure extends HTMLElement {
             valEl.classList.add( "normal" );
         }
 
-        node.setAttribute( 'data-id', item.id );
+        node.querySelector('li').setAttribute( 'data-id', item.id );
         // else {
         //     valEl.classList.add( "normal" );
         // }
