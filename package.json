@@ -5,22 +5,21 @@
   "main": "index.html",
   "scripts": {
     "start2": "parcel index.html --open",
-    "start" : "npm-run-all --parallel start:app start:server",
-    "start:server":"netlify-lambda serve functions",
-    "start:app" : "parcel index.html --open",
     "start": "netlify dev",
+    "start:server": "netlify-lambda serve functions",
+    "start:app": "parcel index.html --open",
     "build": "parcel build index.html",
     "bootstrap": "node ./bootstrap-fauna-database.js"
   },
   "dependencies": {
     "elix": "14.0.0",
-    "faunadb": "^2.14.2"
+    "faunadb": "^2.14.2",
+    "google-charts": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",
-    "google-charts": "^2.0.0",
-    "netlify-cli": "^2.58.0",
-    "netlify-lambda": "^2.0.0",
+    "netlify-cli": "^2.63.3",
+    "netlify-lambda": "^2.0.1",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.6.1"
   },

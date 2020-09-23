@@ -8,4 +8,7 @@ node_modules
 # Local Netlify folder
 .netlify
 
-.dist
+dist/**
+fauna-event.key
+gql-gc-tracker.key
+gql-gc-tracker2.key
