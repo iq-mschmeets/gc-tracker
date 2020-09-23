@@ -197,7 +197,10 @@ class DayMeasure extends HTMLElement {
             console.log( "%s.clickCheck matched dm-item-delete at path 0", this.tagName );
         }
 
-        let temp = evt.path.filter( ( nd ) => { return nd.matches( 'li.dm-item' ) } );
+        let temp = evt.path.filter( ( nd ) => {
+            console.log( "path.filter %o", nd );
+            return nd.matches( 'li.dm-item' )
+        } );
         if ( temp.length == 1 ) {
             console.log( "%s.clickCheck found gt-day-measure in path %o", this.tagName, temp );
             this.onDelete( { id: temp[ 0 ].getAttribute( 'data-id' ) } );
