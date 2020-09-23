@@ -207,7 +207,7 @@ class DayMeasure extends HTMLElement {
 
     }
     onDelete( evt ) {
-        evt.preventDefault();
+       // evt.preventDefault();
         // find source, looking for the button, but, how do we identify the exact
         // item that button represents? Use the data-id attribute as set in renderItem
         // then we need to look up that item in the day's collection.
