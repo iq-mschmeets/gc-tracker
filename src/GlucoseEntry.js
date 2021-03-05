@@ -94,10 +94,23 @@ GlucoseEntryTemplate.innerHTML = `
 `;
 
 function normalizeTimeDate( value ) {
-    if ( value < 10 ) {
+    if ( Number(value) < 10 ) {
         value = "0" + value;
     }
     return value;
+}
+
+function getTimeString( strVal ){
+    let prts = strVal.split(":");
+    return ( normalizeTimeDate(parseInt(prts[0])) +
+        ":"+
+        normalizeTimeDate(parseInt(prts[1])) +
+        ":00" );
+}
+
+function getDate( dateStr, timeStr ){
+    let timeStr = getTimeString( timeStr );
+    return new Date( Date.parse( dateStr + "T" + timeStr ) ),
 }
 
 class GlucoseEntry extends HTMLElement{
@@ -130,14 +143,16 @@ class GlucoseEntry extends HTMLElement{
 
         const dateBox = this.shadowRoot.querySelector( 'input#date' );
         const timeBox = this.shadowRoot.querySelector( 'input#time' );
-        console.log( "GlucoseEntery date %s, time %s", dateBox.value, timeBox.value );
+        const measureDate = getDate( dateBox.value, timeBox.value );
+
+        console.log( "GlucoseEntery date %s, time %s, measureDate: %s", dateBox.value, timeBox.value, measureDate );
             this.dispatchEvent( new CustomEvent( "new-item", {
                 bubbles: true,
                 detail: {
                     type: 'new-item',
                     payload: {
                         value: value,
-                        date: new Date( Date.parse( dateBox.value + " " + timeBox.value ) ),
+                        date: measureDate, 
                         type : typeInput.value
                     }
                 }
