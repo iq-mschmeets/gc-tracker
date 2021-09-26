@@ -109,8 +109,8 @@ function getTimeString( strVal ){
 }
 
 function getDate( dateStr, timeStr ){
-    let timeStr = getTimeString( timeStr );
-    return new Date( Date.parse( dateStr + "T" + timeStr ) ),
+    let timeVal = getTimeString( timeStr );
+    return new Date( Date.parse( dateStr + "T" + timeVal ) );
 }
 
 class GlucoseEntry extends HTMLElement{

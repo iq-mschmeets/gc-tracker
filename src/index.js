@@ -73,7 +73,7 @@ function addMeasurement( payload ) {
     month: payload.date.getMonth() + 1,
     year: payload.date.getFullYear(),
     day: payload.date.getDate(),
-    id: payload.date.getTime(),
+    id: new Date( Date.now() ).getTime(),
     note: payload.note
   };
 
